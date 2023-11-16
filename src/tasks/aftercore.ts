@@ -3,7 +3,6 @@ import {
   availableAmount,
   buy,
   cliExecute,
-  closetAmount,
   getCampground,
   getClanName,
   getPermedSkills,
@@ -15,6 +14,7 @@ import {
   hippyStoneBroken,
   inebrietyLimit,
   itemAmount,
+  mallPrice,
   myAdventures,
   myClass,
   myHp,
@@ -29,7 +29,6 @@ import {
   restoreMp,
   retrieveItem,
   runChoice,
-  takeCloset,
   toInt,
   use,
   useFamiliar,
@@ -563,9 +562,19 @@ export function AftercoreQuest(): Quest {
       },
       {
         name: "Prepare for LoopSmol",
-        completed: () => have($item`Pizza of Legend`),
-        do: () => cliExecute("acquire Pizza of Legend"),
-        post: () => takeCloset(closetAmount($item`soap knife`), $item`soap knife`),
+        completed: () =>
+          have($item`Pizza of Legend`) &&
+          have($item`Frosty's frosty mug`) &&
+          have($item`Ol' Scratch's salad fork`),
+        do: (): void => {
+          if (
+            mallPrice($item`Frosty's frosty mug`) < 200000 &&
+            mallPrice($item`Ol' Scratch's salad fork`) < 200000
+          )
+            cliExecute(
+              "acquire Pizza of Legend; acquire Frosty's frosty mug; acquire Ol' Scratch's salad fork"
+            );
+        },
       },
       {
         name: "Ascend Smol",
