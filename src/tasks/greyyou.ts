@@ -72,7 +72,7 @@ import {
 let pajamas = false;
 let smoke = 1;
 const checkMelange =
-  get("valueOfAdventure") * 99 > mallPrice($item`spice melange`) &&
+  get("valueOfAdventure") * 45 > mallPrice($item`spice melange`) &&
   !have($item`designer sweatpants`);
 
 function firstWorkshed() {
