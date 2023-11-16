@@ -194,6 +194,13 @@ export function GyouQuests(): Quest[] {
           },
         },
         {
+          name: "Prepare Empathy",
+          completed: () => get("_empathyReady", false),
+          do: (): void => {
+            cliExecute("maximize MP; set _empathyReady = true");
+          },
+        },
+        {
           name: "Stillsuit Prep",
           completed: () => itemAmount($item`tiny stillsuit`) === 0,
           do: () =>
