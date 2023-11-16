@@ -124,8 +124,7 @@ export function GyouQuests(): Quest[] {
   return [
     {
       name: "Smol Run",
-      completed: () =>
-        getCurrentLeg() !== Leg.Smol || step("questL13Final") > 11 || get("kingLiberated", false),
+      completed: () => getCurrentLeg() !== Leg.Smol || get("kingLiberated", false),
       tasks: [
         {
           name: "Whitelist VIP Clan",
