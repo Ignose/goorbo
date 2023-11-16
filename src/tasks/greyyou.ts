@@ -206,6 +206,26 @@ export function GyouQuests(): Quest[] {
           clear: "all",
           tracking: "Run",
         },
+        {
+          name: "drink",
+          ready: () => step("questL13Final") > 11,
+          completed: () => myInebriety() >= 2,
+          do: (): void => {
+            if (have($skill`The Ode to Booze`)) useSkill($skill`The Ode to Booze`);
+            drink($item`astral pilsner`, 1);
+          },
+          clear: "all",
+          tracking: "Run",
+        },
+        {
+          name: "Free King",
+          ready: () => step("questL13Final") > 11,
+          completed: () => get("kingLiberated", false),
+          do: (): void => {
+            visitUrl("place.php?whichplace=nstower&action=ns_11_prism");
+          },
+          clear: "all",
+        },
       ],
     },
     {
@@ -213,6 +233,11 @@ export function GyouQuests(): Quest[] {
       ready: () => myDaycount() === 1 && get("kingLiberated", false),
       completed: () => getCurrentLeg() !== Leg.Smol,
       tasks: [
+        {
+          name: "Pull All",
+          completed: () => get("lastEmptiedStorage") === myAscensions(),
+          do: () => cliExecute("pull all; refresh all"),
+        },
         {
           name: "Drink Pre-Tune",
           ready: () =>

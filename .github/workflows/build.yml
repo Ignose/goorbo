@@ -1,4 +1,4 @@
-name: Build smol-is-garbage
+name: Build smolisgarbage
 
 on:
   push:
