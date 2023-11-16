@@ -5,8 +5,8 @@ import { permTiers } from "./tasks/perm";
 import { toMoonSign } from "./tasks/utils";
 
 export const args = Args.create(
-  "goorbo",
-  `Written by frazazel #422389 (previous ign: SketchySolid). This is a full-day script for glooping. It aims to be a single-press script that will take you through your Aftercore and Grey You legs, collecting fat loot tokens, getting a Steel Liver, and leveling up to level 13 before running garbo. It chooses a class for you to learn guild skills, and to perm learned skills upon ascension.`,
+  "smolisgarbage",
+  `This is a full-day script for smollooping. It aims to be a single-press script that will take you through your Aftercore and Grey You legs, collecting fat loot tokens, getting a Steel Liver, and leveling up to level 13 before running garbo. It chooses a class for you to learn guild skills, and to perm learned skills upon ascension.`,
   {
     //alternate-run flags
     version: Args.flag({
@@ -88,7 +88,7 @@ export const args = Args.create(
     ),
     defaultclass: Args.custom(
       {
-        help: "Choose your default class, if goorbo doesn't have any other goals this run",
+        help: "Choose your default class, if smol doesn't have any other goals this run",
         options:
           $classes`Seal Clubber, Turtle Tamer, Pastamancer, Sauceror, Disco Bandit, Accordion Thief`.map(
             (cl) => [cl]
@@ -111,7 +111,7 @@ export const args = Args.create(
       "CLASS"
     ),
     clan: Args.string({
-      help: `Your VIP Clan. Goorbo will whitelist into it at the beginning of your day. Requires clan whitelist.`,
+      help: `Your VIP Clan. Smol will whitelist into it at the beginning of your day. Requires clan whitelist.`,
     }),
     pulls: Args.items({
       help: "A list of items to pull at the start of the smol run.",

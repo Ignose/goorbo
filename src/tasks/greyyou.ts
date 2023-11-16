@@ -555,10 +555,10 @@ export function GyouQuests(): Quest[] {
           completed: () => stooperDrunk(),
           do: (): void => {
             const targetAdvs = 100 - numericModifier("adventures");
-            print("goorbo completed, but did not overdrink.", "red");
+            print("smol completed, but did not overdrink.", "red");
             if (targetAdvs < myAdventures() && targetAdvs > 0)
               print(
-                `Rerun with fewer than ${targetAdvs} adventures for goorbo to handle your diet`,
+                `Rerun with fewer than ${targetAdvs} adventures for smol to handle your diet`,
                 "red"
               );
             else print("Something went wrong.", "red");

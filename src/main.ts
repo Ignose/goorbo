@@ -30,11 +30,11 @@ export function main(command?: string): void {
     return;
   }
   if (args.version) {
-    print(`goorbo v${version}`);
+    print(`smol v${version}`);
     return;
   }
 
-  print(`Running: goorbo v${version}`);
+  print(`Running: smol v${version}`);
 
   const tasks = getTasks([AftercoreQuest(), ...GyouQuests()]);
 

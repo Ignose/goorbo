@@ -32,7 +32,7 @@
   "dependencies": {
     "core-js": "^3.16.4",
     "grimoire-kolmafia": "^0.3.25",
-    "kolmafia": "5.27664.0",
+    "kolmafia": "^5.27690.0",
     "libram": "^0.8.16",
     "mafia-shared-relay": "0.0.7",
     "typescript-eslint": "^0.0.1-alpha.0"
@@ -41,7 +41,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/seraphiii/goorbo.git"
+    "url": "git+https://github.com/Ignose/smol-is-garbage.git"
   },
   "keywords": [
     "KoLMafia",
@@ -49,7 +49,7 @@
     "TS"
   ],
   "bugs": {
-    "url": "https://github.com/seraphiii/goorbo/issues"
+    "url": "https://github.com/Ignose/smol-is-garbage/issues"
   },
-  "homepage": "https://github.com/seraphiii/goorbo#readme"
+  "homepage": "https://github.com/Ignose/smol-is-garbage#readme"
 }
