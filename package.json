@@ -1,6 +1,6 @@
 {
   "name": "smolisgarbage",
-  "version": "0.6.8",
+  "version": "0.0.1",
   "description": "A smolloop script that spends farming turns with garbo, and aids with perming skills.",
   "main": "scripts/smolisgarbage/smolisgarbage.js",
   "scripts": {
