@@ -6,8 +6,10 @@ import {
   cliExecute,
   closetAmount,
   drink,
+  eat,
   Effect,
   equip,
+  fullnessLimit,
   getClanName,
   getWorkshed,
   hippyStoneBroken,
@@ -17,6 +19,7 @@ import {
   myAdventures,
   myAscensions,
   myDaycount,
+  myFullness,
   myInebriety,
   myLevel,
   myMaxhp,
@@ -49,6 +52,7 @@ import {
   $items,
   $location,
   $skill,
+  clamp,
   get,
   getTodaysHolidayWanderers,
   have,
@@ -74,6 +78,18 @@ let smoke = 1;
 const checkMelange =
   get("valueOfAdventure") * 45 > mallPrice($item`spice melange`) &&
   !have($item`designer sweatpants`);
+
+export function howManySausagesCouldIEat() {
+  if (!have($item`Kramco Sausage-o-Matic™`)) return 0;
+  // You may be full but you can't be overfull
+  if (myFullness() > fullnessLimit()) return 0;
+
+  return clamp(
+    23 - get("_sausagesEaten"),
+    0,
+    itemAmount($item`magical sausage`) + itemAmount($item`magical sausage casing`)
+  );
+}
 
 function firstWorkshed() {
   return (
@@ -231,6 +247,15 @@ export function GyouQuests(): Quest[] {
           do: (): void => {
             if (have($skill`The Ode to Booze`)) useSkill($skill`The Ode to Booze`);
             drink($item`astral pilsner`, 1);
+          },
+          clear: "all",
+          tracking: "Run",
+        },
+        {
+          name: "Sausages",
+          completed: () => howManySausagesCouldIEat() === 0,
+          do: (): void => {
+            eat($item`magical sausage`, howManySausagesCouldIEat());
           },
           clear: "all",
           tracking: "Run",
