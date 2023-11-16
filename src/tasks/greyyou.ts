@@ -13,6 +13,7 @@ import {
   hippyStoneBroken,
   inebrietyLimit,
   itemAmount,
+  mallPrice,
   myAdventures,
   myAscensions,
   myDaycount,
@@ -70,6 +71,9 @@ import {
 
 let pajamas = false;
 let smoke = 1;
+const checkMelange =
+  get("valueOfAdventure") * 99 > mallPrice($item`spice melange`) &&
+  !have($item`designer sweatpants`);
 
 function firstWorkshed() {
   return (
@@ -214,7 +218,7 @@ export function GyouQuests(): Quest[] {
           name: "drink",
           ready: () =>
             step("questL13Final") > 11 &&
-            have($item`designer sweatpants`) &&
+            (have($item`designer sweatpants`) || checkMelange) &&
             have($skill`Drinking to Drink`) &&
             have($item`distention pill`),
           completed: () => myInebriety() >= 2,
@@ -250,6 +254,9 @@ export function GyouQuests(): Quest[] {
           name: "Sober Up",
           completed: () => myInebriety() <= 15,
           do: (): void => {
+            if (checkMelange) {
+              cliExecute("acquire spice melange; use spice melange");
+            }
             while (get("_sweatOutSomeBoozeUsed", 0) < 3) {
               useSkill($skill`Sweat Out Some Booze`);
             }
