@@ -10,7 +10,6 @@ import {
   getWorkshed,
   gnomadsAvailable,
   guildStoreAvailable,
-  handlingChoice,
   haveEffect,
   haveEquipped,
   hippyStoneBroken,
@@ -190,7 +189,7 @@ export function AftercoreQuest(): Quest {
           !have($item`lucky gold ring`) || get("_stenchAirportToday") || get("stenchAirportAlways"),
         do: () => use($item`one-day ticket to Dinseylandfill`),
       },
-      {
+      /*{
         name: "June Cleaver",
         completed: () =>
           !have($item`June cleaver`) || get("_juneCleaverFightsLeft") > 0 || myAdventures() === 0,
@@ -212,7 +211,7 @@ export function AftercoreQuest(): Quest {
         },
         outfit: () => ({ equip: $items`June cleaver` }),
         limit: undefined,
-      },
+      },*/
       {
         name: "Restore HP",
         completed: () => myHp() > 0.5 * myMaxhp(),
@@ -511,7 +510,7 @@ export function AftercoreQuest(): Quest {
         completed: () => totallyDrunk(),
         do: () => cliExecute(`CONSUME NIGHTCAP VALUE 500`),
       },
-      {
+      /*{
         name: "Grimace Maps",
         completed: () => myAdventures() === 0 || !have($item`Map to Safety Shelter Grimace Prime`),
         effects: $effects`Transpondent`,
@@ -525,7 +524,7 @@ export function AftercoreQuest(): Quest {
         },
         do: () => use($item`Map to Safety Shelter Grimace Prime`),
         limit: { tries: 30 },
-      },
+      },*/
       {
         name: "Garbo (Drunk)",
         ready: () => have($item`Drunkula's wineglass`),

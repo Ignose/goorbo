@@ -10,7 +10,6 @@ import {
   equip,
   getClanName,
   getWorkshed,
-  haveEquipped,
   hippyStoneBroken,
   inebrietyLimit,
   itemAmount,
@@ -62,7 +61,6 @@ import {
   bestFam,
   canDiet,
   doneAdventuring,
-  getGarden,
   haveAll,
   maxBase,
   stooperDrunk,
@@ -318,7 +316,6 @@ export function GyouQuests(): Quest[] {
         {
           name: "Laugh Floor",
           completed: () =>
-            args.ascend ||
             have($skill`Liver of Steel`) ||
             have($item`steel margarita`) ||
             have($item`Azazel's lollipop`) ||
@@ -330,7 +327,7 @@ export function GyouQuests(): Quest[] {
               : []),
           ],
           prepare: (): void => {
-            if (args.buffy && !have($effect`Carlweather's Cantata of Confrontation`)) {
+            if (!have($effect`Carlweather's Cantata of Confrontation`)) {
               cliExecute("kmail to Buffy || 10 Cantata of Confrontation");
               wait(15);
               cliExecute("refresh effects");
@@ -358,7 +355,6 @@ export function GyouQuests(): Quest[] {
         {
           name: "Infernal Rackets Backstage",
           completed: () =>
-            args.ascend ||
             have($skill`Liver of Steel`) ||
             have($item`steel margarita`) ||
             have($item`Azazel's unicorn`) ||
@@ -368,7 +364,7 @@ export function GyouQuests(): Quest[] {
             ...(have($skill`The Sonata of Sneakiness`) ? $effects`The Sonata of Sneakiness` : []),
           ],
           prepare: (): void => {
-            if (args.buffy && !have($effect`The Sonata of Sneakiness`)) {
+            if (!have($effect`The Sonata of Sneakiness`)) {
               cliExecute("kmail to Buffy || 10 Sonata of Sneakiness");
               wait(15);
               cliExecute("refresh effects");
@@ -397,7 +393,6 @@ export function GyouQuests(): Quest[] {
           name: "Mourn",
           ready: () => have($item`observational glasses`),
           completed: () =>
-            args.ascend ||
             have($skill`Liver of Steel`) ||
             have($item`steel margarita`) ||
             have($item`Azazel's lollipop`),
@@ -410,7 +405,6 @@ export function GyouQuests(): Quest[] {
           name: "Sven Golly",
           ready: () => backstageItemsDone(),
           completed: () =>
-            args.ascend ||
             have($skill`Liver of Steel`) ||
             have($item`steel margarita`) ||
             have($item`Azazel's unicorn`),
@@ -437,7 +431,6 @@ export function GyouQuests(): Quest[] {
           name: "Moaning Panda",
           ready: () => haveAll($items`Azazel's lollipop, Azazel's unicorn`),
           completed: () =>
-            args.ascend ||
             have($skill`Liver of Steel`) ||
             have($item`steel margarita`) ||
             have($item`Azazel's tutu`),
@@ -453,14 +446,13 @@ export function GyouQuests(): Quest[] {
         {
           name: "Steel Margarita",
           ready: () => haveAll($items`Azazel's tutu, Azazel's lollipop, Azazel's unicorn`),
-          completed: () =>
-            args.ascend || have($skill`Liver of Steel`) || have($item`steel margarita`),
+          completed: () => have($skill`Liver of Steel`) || have($item`steel margarita`),
           do: () => cliExecute("panda temple"),
         },
         {
           name: "Liver of Steel",
           ready: () => have($item`steel margarita`),
-          completed: () => args.ascend || have($skill`Liver of Steel`),
+          completed: () => have($skill`Liver of Steel`),
           do: () => drink(1, $item`steel margarita`),
         },
         {
@@ -509,110 +501,8 @@ export function GyouQuests(): Quest[] {
         {
           name: "Nightcap",
           ready: () => doneAdventuring(),
-          completed: () => args.ascend || totallyDrunk(),
+          completed: () => totallyDrunk(),
           do: () => cliExecute("CONSUME NIGHTCAP"),
-        },
-        {
-          name: "Barfing Drunk with Stooper",
-          ready: () =>
-            stooperDrunk() && have($familiar`Stooper`) && !have($item`Drunkula's wineglass`),
-          completed: () => !args.ascend || myAdventures() === 0 || totallyDrunk(),
-          acquire: [{ item: $item`seal tooth` }],
-          outfit: () => ({
-            familiar: $familiar`Stooper`,
-            modifier: `${maxBase()}, 2.5 meat, 0.6 items`,
-          }),
-          effects: $effects`How to Scam Tourists`, //need to add meat buffs that we can cast
-          prepare: (): void => {
-            restoreHp(0.75 * myMaxhp());
-            restoreMp(20);
-          },
-          do: $location`Barf Mountain`,
-          combat: new CombatStrategy()
-            .macro(Macro.trySkill($skill`Curse of Weaksauce`), getTodaysHolidayWanderers())
-            .macro(() =>
-              Macro.step("pickpocket")
-                .tryItem($item`train whistle`)
-                .trySkill($skill`Bowl Straight Up`)
-                .trySkill($skill`Sing Along`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .externalIf(
-                  haveEquipped($item`mafia pointer finger ring`),
-                  Macro.trySkill($skill`Furious Wallop`)
-                    .trySkill($skill`Summer Siesta`)
-                    .trySkill($skill`Throw Shield`)
-                    .trySkill($skill`Precision Shot`)
-                )
-                .attack()
-                .repeat()
-            ),
-          limit: { tries: 30 },
-        },
-        {
-          name: "Nightcap (Wine Glass)",
-          ready: () => have($item`Drunkula's wineglass`),
-          completed: () => !args.ascend || totallyDrunk(),
-          do: () => cliExecute(`CONSUME NIGHTCAP VALUE ${get("valueOfAdventure") - 1000}`),
-        },
-        {
-          name: "Nightcap (Marginal)",
-          ready: () => have($item`Beach Comb`) || have($item`Map to Safety Shelter Grimace Prime`),
-          completed: () => !args.ascend || totallyDrunk(),
-          do: () => cliExecute(`CONSUME NIGHTCAP VALUE 500`),
-        },
-        {
-          name: "Grimace Maps",
-          completed: () =>
-            !args.ascend ||
-            myAdventures() === 0 ||
-            !have($item`Map to Safety Shelter Grimace Prime`),
-          effects: $effects`Transpondent`,
-          choices: {
-            536: () =>
-              availableAmount($item`distention pill`) <
-              availableAmount($item`synthetic dog hair pill`) +
-                availableAmount($item`Map to Safety Shelter Grimace Prime`)
-                ? 1
-                : 2,
-          },
-          do: () => use($item`Map to Safety Shelter Grimace Prime`),
-          limit: { tries: 30 },
-        },
-        {
-          name: "Garbo (Drunk)",
-          ready: () => have($item`Drunkula's wineglass`),
-          prepare: () => uneffect($effect`Beaten Up`),
-          completed: () => !args.ascend || myAdventures() === 0,
-          do: () => cliExecute("garbo ascend"),
-          post: () =>
-            $effects`Power Ballad of the Arrowsmith, Stevedave's Shanty of Superiority, The Moxious Madrigal, The Magical Mojomuscular Melody, Aloysius' Antiphon of Aptitude, Ur-Kel's Aria of Annoyance`
-              .filter((ef) => have(ef))
-              .forEach((ef) => uneffect(ef)),
-          clear: "all",
-          tracking: "Garbo",
-        },
-        {
-          name: "Comb Beach",
-          ready: () => have($item`Beach Comb`),
-          completed: () => !args.ascend || myAdventures() === 0,
-          do: () => cliExecute(`combo ${11 - get("_freeBeachWalksUsed") + myAdventures()}`),
-        },
-        {
-          name: "Plant Garden",
-          ready: () =>
-            doneAdventuring() &&
-            !!$items`packet of rock seeds, packet of thanksgarden seeds, Peppermint Pip Packet, packet of winter seeds, packet of beer seeds, packet of pumpkin seeds, packet of dragon's teeth`.find(
-              (it) => have(it)
-            ),
-          completed: () => getGarden() !== $item`packet of tall grass seeds`,
-          do: () => {
-            use(
-              $items`packet of rock seeds, packet of thanksgarden seeds, Peppermint Pip Packet, packet of winter seeds, packet of beer seeds, packet of pumpkin seeds, packet of dragon's teeth`.find(
-                (it) => have(it)
-              ) || $item`none`
-            );
-            if (args.ascend) cliExecute("garden pick");
-          },
         },
         {
           name: "Offhand Remarkable",
@@ -628,7 +518,7 @@ export function GyouQuests(): Quest[] {
         },
         {
           name: "Pajamas",
-          completed: () => args.ascend || have($item`burning cape`),
+          completed: () => have($item`burning cape`),
           acquire: [
             { item: $item`clockwork maid`, price: 7 * get("valueOfAdventure"), optional: true },
             { item: $item`burning cape` },

@@ -113,14 +113,6 @@ export const args = Args.create(
     clan: Args.string({
       help: `Your VIP Clan. Goorbo will whitelist into it at the beginning of your day. Requires clan whitelist.`,
     }),
-    targetlevel: Args.number({
-      help: `What level to target via adventuring in Uncle Gator's after breaking the prism`,
-      default: 13,
-    }),
-    buffy: Args.boolean({
-      help: "Set this to false to stop asking Buffy for buffs.",
-      default: true,
-    }),
     pulls: Args.items({
       help: "A list of items to pull at the start of the smol run.",
       default: [
@@ -130,10 +122,6 @@ export const args = Args.create(
           : $items`one-day ticket to Dinseylandfill`),
       ],
     }),
-    ascend: Args.flag({
-      help: "Run with this flag to skip tasks that prepare you for rollover, including steel liver.",
-      default: false,
-    }),
     smolscript: Args.string({
       help: "The command that will do your smol run for you. Include any arguments desired.",
       default: "loopsmol",
@@ -141,9 +129,6 @@ export const args = Args.create(
     garbo: Args.string({
       help: "The command that will be used to diet and use all your adventures after reaching level 13 in Day 1 aftercore.",
       default: "garbo",
-    }),
-    roninfarm: Args.string({
-      help: "A command to be run at the start of ronin-farming. For best effect, make sure that it stops when your turncount reaches 1000.",
     }),
     garboascend: Args.string({
       help: `The command that will be used to diet and use all your adventures in Day 2 aftercore.`,
