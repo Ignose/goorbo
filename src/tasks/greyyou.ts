@@ -16,7 +16,6 @@ import {
   itemAmount,
   myAdventures,
   myAscensions,
-  myClass,
   myDaycount,
   myInebriety,
   myLevel,
@@ -40,7 +39,6 @@ import {
   wait,
 } from "kolmafia";
 import {
-  $class,
   $coinmaster,
   $effect,
   $effects,
@@ -119,11 +117,9 @@ function altWorkshed() {
 export function GyouQuests(): Quest[] {
   return [
     {
-      name: "Grey You Run",
+      name: "Smol Run",
       completed: () =>
-        getCurrentLeg() !== Leg.Smol ||
-        step("questL13Final") > 11 ||
-        myClass() !== $class`Grey Goo`,
+        getCurrentLeg() !== Leg.Smol || step("questL13Final") > 11 || get("kingLiberated", false),
       tasks: [
         {
           name: "Whitelist VIP Clan",
@@ -208,7 +204,7 @@ export function GyouQuests(): Quest[] {
         {
           name: "Run",
           completed: () => step("questL13Final") > 11,
-          do: () => cliExecute(args.gyouscript),
+          do: () => cliExecute(args.smolscript),
           clear: "all",
           tracking: "Run",
         },

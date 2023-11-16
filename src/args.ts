@@ -122,7 +122,7 @@ export const args = Args.create(
       default: true,
     }),
     pulls: Args.items({
-      help: "A list of items to pull at the start of the Grey You run.",
+      help: "A list of items to pull at the start of the smol run.",
       default: [
         ...$items`mafia thumb ring, lucky gold ring`,
         ...(get("stenchAirportAlways") || get("_stenchAirportToday")
@@ -134,9 +134,9 @@ export const args = Args.create(
       help: "Run with this flag to skip tasks that prepare you for rollover, including steel liver.",
       default: false,
     }),
-    gyouscript: Args.string({
-      help: "The command that will do your Grey You run for you. Include any arguments desired.",
-      default: "loopgyou chargegoose=20",
+    smolscript: Args.string({
+      help: "The command that will do your smol run for you. Include any arguments desired.",
+      default: "loopsmol",
     }),
     garbo: Args.string({
       help: "The command that will be used to diet and use all your adventures after reaching level 13 in Day 1 aftercore.",

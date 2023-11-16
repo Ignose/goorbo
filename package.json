@@ -1,8 +1,8 @@
 {
-  "name": "goorbo",
+  "name": "smolisgarbage",
   "version": "0.6.8",
-  "description": "A gloop script that spends farming turns with garbo, and aids with perming skills.",
-  "main": "scripts/goorbo/goorbo.js",
+  "description": "A smolloop script that spends farming turns with garbo, and aids with perming skills.",
+  "main": "scripts/smolisgarbage/smolisgarbage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "yarn run build:types && yarn run build:js",
@@ -32,16 +32,16 @@
   "dependencies": {
     "core-js": "^3.16.4",
     "grimoire-kolmafia": "^0.3.25",
-    "kolmafia": "^5.27690.0",
+    "kolmafia": "5.27664.0",
     "libram": "^0.8.16",
     "mafia-shared-relay": "^0.0.7",
     "typescript-eslint": "^0.0.1-alpha.0"
   },
-  "author": "frazazel",
+  "author": "frazazel/Seraphiii",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/frazazel/goorbo.git"
+    "url": "git+https://github.com/seraphiii/goorbo.git"
   },
   "keywords": [
     "KoLMafia",
@@ -49,7 +49,7 @@
     "TS"
   ],
   "bugs": {
-    "url": "https://github.com/frazazel/goorbo/issues"
+    "url": "https://github.com/seraphiii/goorbo/issues"
   },
-  "homepage": "https://github.com/frazazel/goorbo#readme"
+  "homepage": "https://github.com/seraphiii/goorbo#readme"
 }
