@@ -28,6 +28,7 @@ import {
   restoreHp,
   restoreMp,
   retrieveItem,
+  setProperty,
   storageAmount,
   takeCloset,
   toInt,
@@ -66,6 +67,9 @@ import {
   stooperDrunk,
   totallyDrunk,
 } from "./utils";
+
+let pajamas = false;
+let smoke = 1;
 
 function firstWorkshed() {
   return (
@@ -208,7 +212,11 @@ export function GyouQuests(): Quest[] {
         },
         {
           name: "drink",
-          ready: () => step("questL13Final") > 11,
+          ready: () =>
+            step("questL13Final") > 11 &&
+            have($item`designer sweatpants`) &&
+            have($skill`Drinking to Drink`) &&
+            have($item`distention pill`),
           completed: () => myInebriety() >= 2,
           do: (): void => {
             if (have($skill`The Ode to Booze`)) useSkill($skill`The Ode to Booze`);
@@ -231,12 +239,23 @@ export function GyouQuests(): Quest[] {
     {
       name: "Post-Grey You Aftercore",
       ready: () => myDaycount() === 1 && get("kingLiberated", false),
-      completed: () => getCurrentLeg() !== Leg.Smol,
+      completed: () => totallyDrunk() && pajamas,
       tasks: [
         {
           name: "Pull All",
           completed: () => get("lastEmptiedStorage") === myAscensions(),
           do: () => cliExecute("pull all; refresh all"),
+        },
+        {
+          name: "Sober Up",
+          completed: () => myInebriety() <= 15,
+          do: (): void => {
+            while (get("_sweatOutSomeBoozeUsed", 0) < 3) {
+              useSkill($skill`Sweat Out Some Booze`);
+            }
+            if (!get("_sobrieTeaUsed", false)) cliExecute("acquire sobrie-tea");
+            use($item`distention pill`);
+          },
         },
         {
           name: "Drink Pre-Tune",
@@ -530,6 +549,21 @@ export function GyouQuests(): Quest[] {
           do: () => cliExecute("CONSUME NIGHTCAP"),
         },
         {
+          name: "Smoke em if you got em",
+          completed: () => !have($item`stick of firewood`),
+          do: (): void => {
+            while (have($item`stick of firewood`)) {
+              setProperty(
+                "choiceAdventure1394",
+                `1&message=${smoke} Thanks Seraphiii for writing Candywrapper!`
+              );
+              use(1, $item`campfire smoke`);
+              print(`Smoked ${smoke} firewoods!`);
+              smoke = smoke + 1;
+            }
+          },
+        },
+        {
           name: "Offhand Remarkable",
           // eslint-disable-next-line libram/verify-constants
           ready: () => have($item`August Scepter`),
@@ -548,10 +582,11 @@ export function GyouQuests(): Quest[] {
             { item: $item`clockwork maid`, price: 7 * get("valueOfAdventure"), optional: true },
             { item: $item`burning cape` },
           ],
-          do: () => {
+          do: (): void => {
             if (have($item`clockwork maid`)) {
               use($item`clockwork maid`);
             }
+            pajamas = true;
           },
           outfit: () => ({
             familiar:
