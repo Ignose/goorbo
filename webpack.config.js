@@ -55,7 +55,7 @@ const entry = merge(
       smolisgarbage: "./src/main.ts",
     },
     output: {
-      path: path.resolve(__dirname, "scripts", packageData.name),
+      path: path.resolve(__dirname, "KoLmafia", "scripts", packageData.name),
     },
   },
   shared
@@ -69,7 +69,7 @@ const relay = merge(
       relay_smolisgarbage: "./src/relay.ts",
     },
     output: {
-      path: path.resolve(__dirname, "relay"),
+      path: path.resolve(__dirname, "KoLmafia", "relay"),
     },
   },
   shared
