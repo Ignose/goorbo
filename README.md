@@ -4,16 +4,8 @@ goorbo is a wrapper script that runs a Grey You half-loop, running daily farming
 
 ## Installation
 
-For the latest features, and to support the script with much-needed feedback on said features, use the testing branch:
-
 ```text
-git checkout https://github.com/frazazel/goorbo.git testing
-```
-
-For a more stable release, use the release branch:
-
-```text
-git checkout https://github.com/frazazel/goorbo.git release
+git checkout https://github.com/ignose/smol-is-garbage.git release
 ```
 
 You will need to `git delete goorbo` before switching branches.
