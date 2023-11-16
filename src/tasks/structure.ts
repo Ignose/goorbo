@@ -16,6 +16,6 @@ export enum Leg {
 }
 
 export function getCurrentLeg(): number {
-  if (myDaycount() === 1 || get("kingLiberated", false)) return Leg.Smol;
+  if (myDaycount() === 1 || !get("kingLiberated", false)) return Leg.Smol;
   return Leg.Aftercore;
 }
