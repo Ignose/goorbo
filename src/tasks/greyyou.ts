@@ -10,23 +10,18 @@ import {
   equip,
   getClanName,
   getWorkshed,
-  gnomadsAvailable,
-  handlingChoice,
   haveEquipped,
   hippyStoneBroken,
   inebrietyLimit,
   itemAmount,
-  maximize,
   myAdventures,
   myAscensions,
   myClass,
-  myFamiliar,
+  myDaycount,
   myInebriety,
   myLevel,
   myMaxhp,
-  myMeat,
   mySign,
-  myTurncount,
   numericModifier,
   print,
   pullsRemaining,
@@ -38,7 +33,6 @@ import {
   storageAmount,
   takeCloset,
   toInt,
-  totalFreeRests,
   use,
   useFamiliar,
   useSkill,
@@ -55,23 +49,12 @@ import {
   $item,
   $items,
   $location,
-  $locations,
-  $monsters,
-  $phylum,
   $skill,
-  AsdonMartin,
-  AutumnAton,
-  DNALab,
-  ensureEffect,
   get,
-  getBanishedMonsters,
   getTodaysHolidayWanderers,
   have,
   Macro,
-  Robortender,
   set,
-  Snapper,
-  SongBoom,
   uneffect,
 } from "libram";
 import { args } from "../args";
@@ -84,12 +67,9 @@ import {
   getGarden,
   haveAll,
   maxBase,
-  meatFam,
-  noML,
   stooperDrunk,
   totallyDrunk,
 } from "./utils";
-import { targetClass } from "./perm";
 
 function firstWorkshed() {
   return (
@@ -141,7 +121,7 @@ export function GyouQuests(): Quest[] {
     {
       name: "Grey You Run",
       completed: () =>
-        getCurrentLeg() !== Leg.GreyYou ||
+        getCurrentLeg() !== Leg.Smol ||
         step("questL13Final") > 11 ||
         myClass() !== $class`Grey Goo`,
       tasks: [
@@ -235,397 +215,9 @@ export function GyouQuests(): Quest[] {
       ],
     },
     {
-      name: "Grey You Ronin",
-      completed: () =>
-        getCurrentLeg() !== Leg.GreyYou || myClass() !== $class`Grey Goo` || myAdventures() <= 40,
-      tasks: [
-        {
-          name: "Uncloset Special Seasoning",
-          completed: () => myTurncount() >= 1000 || closetAmount($item`Special Seasoning`) === 0,
-          do: () => takeCloset(closetAmount($item`Special Seasoning`), $item`Special Seasoning`),
-          tracking: "Run",
-        },
-        {
-          name: "Train Gnome Skills",
-          ready: () => myMeat() >= 5000 && gnomadsAvailable(),
-          completed: () => have($skill`Torso Awareness`),
-          do: () =>
-            visitUrl(`gnomes.php?action=trainskill&whichskill=${toInt($skill`Torso Awareness`)}`),
-        },
-        {
-          name: "June Cleaver",
-          completed: () =>
-            !have($item`June cleaver`) || get("_juneCleaverFightsLeft") > 0 || myAdventures() === 0,
-          choices: {
-            1467: 3, //Poetic Justice
-            1468: () => (get("_juneCleaverSkips") < 5 ? 4 : 2), //Aunts not Ants
-            1469: 3, //Beware of Aligator
-            1470: () => (get("_juneCleaverSkips") < 5 ? 4 : 2), //Teacher's Pet
-            1471: 1, //Lost and Found
-            1472: () => (get("_juneCleaverSkips") < 5 ? 4 : 1), //Summer Days
-            1473: () => (get("_juneCleaverSkips") < 5 ? 4 : 1), //Bath Time
-            1474: () => (get("_juneCleaverSkips") < 5 ? 4 : 2), //Delicious Sprouts
-            1475: 1, //Hypnotic Master
-          },
-          do: $location`Noob Cave`,
-          post: () => {
-            if (handlingChoice()) visitUrl("main.php");
-            if (have($effect`Beaten Up`)) {
-              if (have($skill`Tongue of the Walrus`)) useSkill($skill`Tongue of the Walrus`);
-              else if (get("_hotTubSoaks") < 5) cliExecute("hottub");
-              else if (get("timesRested") < totalFreeRests()) cliExecute("campground rest");
-              else if (
-                !use($items`tiny house, Space Tours Tripple`.find((it) => have(it)) || $item`none`)
-              )
-                uneffect($effect`Beaten Up`);
-            }
-          },
-          outfit: () => ({ equip: $items`June cleaver` }),
-          limit: undefined,
-        },
-        {
-          name: "Autumnaton",
-          completed: () =>
-            !have($item`autumn-aton`) || AutumnAton.turnsForQuest() >= myAdventures() + 10,
-          do: () => {
-            if (
-              itemAmount($item`imp air`) < 5 &&
-              !have($skill`Liver of Steel`) &&
-              !have($item`steel margarita`) &&
-              !have($item`Azazel's tutu`)
-            ) {
-              AutumnAton.sendTo($location`The Laugh Floor`);
-            }
-            if (
-              itemAmount($item`bus pass`) < 5 &&
-              !have($skill`Liver of Steel`) &&
-              !have($item`steel margarita`) &&
-              !have($item`Azazel's tutu`)
-            ) {
-              AutumnAton.sendTo($location`Infernal Rackets Backstage`);
-            }
-            const autumnAtonZones = $locations`The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Sleazy Back Alley`;
-            if (AutumnAton.turnsForQuest() < myAdventures() + 10) {
-              AutumnAton.sendTo(autumnAtonZones);
-            }
-          },
-        },
-        {
-          name: "Meat Boombox",
-          completed: () =>
-            !have($item`SongBoom™ BoomBox`) ||
-            get("boomBoxSong") === "Total Eclipse of Your Meat" ||
-            get("_boomBoxSongsLeft") === 0,
-          do: () => SongBoom.setSong("Total Eclipse of Your Meat"),
-        },
-        {
-          name: "Make Soda Bread",
-          completed: () =>
-            getWorkshed() !== $item`Asdon Martin keyfob` ||
-            have($effect`Driving Observantly`) ||
-            availableAmount($item`loaf of soda bread`) >= 10,
-          do: () => {
-            if (availableAmount($item`wad of dough`) < 10) {
-              buy($item`all-purpose flower`);
-              use($item`all-purpose flower`);
-            }
-            retrieveItem(10, $item`loaf of soda bread`);
-          },
-        },
-        {
-          name: "Drive Observantly",
-          completed: () =>
-            getWorkshed() !== $item`Asdon Martin keyfob` || have($effect`Driving Observantly`),
-          do: () => AsdonMartin.drive($effect`Driving Observantly`, 30, false),
-        },
-        {
-          name: "Sample Constellation DNA",
-          ready: () => have($item`DNA extraction syringe`),
-          completed: () =>
-            !DNALab.installed() ||
-            DNALab.isHybridized($phylum`Constellation`) ||
-            get("dnaSyringe") === $phylum`Constellation`,
-          outfit: {
-            familiar: bestFam(),
-            modifier: `${maxBase()}`,
-          },
-          do: $location`The Hole in the Sky`,
-          combat: new CombatStrategy()
-            .macro(Macro.skill($skill`Infinite Loop`), getTodaysHolidayWanderers())
-            .macro(Macro.tryItem($item`DNA extraction syringe`))
-            .macro(
-              Macro.tryItem($item`train whistle`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .trySkill($skill`Sing Along`)
-                .attack()
-                .repeat()
-            ),
-        },
-        {
-          name: "Hybridize Constellation",
-          ready: () => get("dnaSyringe") === $phylum`Constellation`,
-          completed: () => !DNALab.installed() || DNALab.isHybridized($phylum`Constellation`),
-          do: () => {
-            DNALab.makeTonic(3);
-            DNALab.hybridize();
-          },
-        },
-        {
-          name: "Robort Collect Fish Head",
-          ready: () => have($item`boxed wine`) && meatFam() === $familiar`Robortender`,
-          completed: () =>
-            !have($item`miniature crystal ball`) ||
-            !have($familiar`Robortender`) ||
-            Robortender.currentDrinks().includes($item`drive-by shooting`) ||
-            have($item`fish head`) ||
-            have($item`piscatini`) ||
-            have($item`drive-by shooting`),
-          outfit: () => ({
-            familiar: get("crystalBallPredictions").includes(
-              ":The Copperhead Club:Mob Penguin Capo"
-            )
-              ? $familiar`Robortender`
-              : have($familiar`Red-Nosed Snapper`)
-              ? $familiar`Red-Nosed Snapper`
-              : bestFam(),
-            famequip: $item`miniature crystal ball`,
-            // ...(have($item`latte lovers member's mug`) &&
-            // !get("_latteCopyUsed") &&
-            // get("crystalBallPredictions").includes(":The Copperhead Club:Mob Penguin Capo")
-            //   ? { offhand: $item`latte lovers member's mug` }
-            //   : {}),
-            modifier: `${maxBase()}`,
-          }),
-          prepare: (): void => {
-            if (
-              myFamiliar() === $familiar`Red-Nosed Snapper` &&
-              Snapper.getTrackedPhylum() !== $phylum`penguin`
-            )
-              Snapper.trackPhylum($phylum`penguin`);
-            restoreHp(0.75 * myMaxhp());
-            restoreMp(20);
-          },
-          do: $location`The Copperhead Club`,
-          combat: new CombatStrategy()
-            .macro(Macro.skill($skill`Infinite Loop`), getTodaysHolidayWanderers())
-            // .macro(Macro.trySkill($skill`Offer Latte to Opponent`), $monster`Mob Penguin Capo`)
-            .macro(
-              () =>
-                Macro.externalIf(
-                  !$monsters`Copperhead Club bartender, fan dancer, ninja dressed as a waiter, waiter dressed as a ninja`.find(
-                    (mob) => mob === getBanishedMonsters().get($skill`System Sweep`) //get("banishedMonsters").includes(`${mob.name}:System Sweep`)
-                  ),
-                  Macro.trySkill($skill`System Sweep`)
-                ),
-              $monsters`Copperhead Club bartender, fan dancer, ninja dressed as a waiter, waiter dressed as a ninja`
-            )
-            .macro(
-              Macro.tryItem($item`train whistle`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .trySkill($skill`Sing Along`)
-                .attack()
-                .repeat()
-            ),
-          limit: { tries: 10 },
-        },
-        {
-          name: "Feed Robortender",
-          ready: () =>
-            (have($item`boxed wine`) && have($item`fish head`)) ||
-            have($item`piscatini`) ||
-            have($item`drive-by shooting`),
-          completed: () =>
-            !have($familiar`Robortender`) ||
-            Robortender.currentDrinks().includes($item`drive-by shooting`),
-          do: () => {
-            retrieveItem($item`drive-by shooting`);
-            useFamiliar($familiar`Robortender`);
-            Robortender.feed($item`drive-by shooting`);
-          },
-        },
-        {
-          name: "Laugh Floor",
-          completed: () =>
-            args.ascend ||
-            have($skill`Liver of Steel`) ||
-            have($item`steel margarita`) ||
-            have($item`Azazel's lollipop`) ||
-            have($item`observational glasses`),
-          prepare: (): void => {
-            if (have($skill`Piezoelectric Honk`) && !have($effect`Hooooooooonk!`))
-              useSkill($skill`Piezoelectric Honk`);
-            $effects`The Sonata of Sneakiness, Darkened Photons, Shifted Phase`.forEach(
-              (ef: Effect) => cliExecute(`uneffect ${ef}`)
-            );
-            restoreHp(0.75 * myMaxhp());
-            restoreMp(20);
-          },
-          do: $location`The Laugh Floor`,
-          outfit: () => ({
-            familiar: bestFam(),
-            modifier: `${maxBase()}, 100 combat rate, 3 item, 250 bonus carnivorous potted plant, 100 familiar experience`,
-          }),
-          combat: new CombatStrategy()
-            .macro(Macro.skill($skill`Infinite Loop`), getTodaysHolidayWanderers())
-            .macro(
-              Macro.tryItem($item`train whistle`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .trySkill($skill`Double Nanovision`)
-                .attack()
-                .repeat()
-            ),
-          limit: { tries: 15 },
-        },
-        {
-          name: "Infernal Rackets Backstage",
-          completed: () =>
-            args.ascend ||
-            have($skill`Liver of Steel`) ||
-            have($item`steel margarita`) ||
-            have($item`Azazel's unicorn`) ||
-            backstageItemsDone(),
-          prepare: (): void => {
-            if (have($skill`Photonic Shroud`) && !have($effect`Darkened Photons`))
-              useSkill($skill`Photonic Shroud`);
-            if (have($skill`Phase Shift`) && !have($effect`Shifted Phase`))
-              useSkill($skill`Phase Shift`);
-            $effects`Carlweather's Cantata of Confrontation, Hooooooooonk!`.forEach((ef: Effect) =>
-              cliExecute(`uneffect ${ef}`)
-            );
-            restoreHp(0.75 * myMaxhp());
-            restoreMp(20);
-          },
-          do: $location`Infernal Rackets Backstage`,
-          outfit: () => ({
-            familiar: bestFam(),
-            modifier: `${maxBase()}, -100 combat rate, 3 item, 250 bonus carnivorous potted plant, 100 familiar experience`,
-          }),
-          combat: new CombatStrategy()
-            .macro(Macro.skill($skill`Infinite Loop`), getTodaysHolidayWanderers())
-            .macro(
-              Macro.tryItem($item`train whistle`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .trySkill($skill`Double Nanovision`)
-                .repeat()
-            ),
-          limit: { tries: 15 },
-        },
-        {
-          name: "Custom Ronin Farm",
-          completed: () =>
-            !args.roninfarm || args.roninfarm === "" || get("_goorbo_roninfarmComplete", false),
-          do: () => {
-            if (args.roninfarm) cliExecute(args.roninfarm);
-            set("_goorbo_roninfarmComplete", true);
-          },
-          tracking: "GooFarming",
-        },
-        {
-          name: "In-Run Farm",
-          completed: () => myAdventures() <= 40,
-          acquire: [{ item: $item`seal tooth` }],
-          outfit: () => ({
-            familiar: meatFam(),
-            modifier: `${maxBase()}, 2.5 meat, 0.6 items`,
-          }),
-          prepare: (): void => {
-            if (have($item`How to Avoid Scams`)) ensureEffect($effect`How to Scam Tourists`);
-            restoreHp(0.75 * myMaxhp());
-            restoreMp(20);
-          },
-          do: $location`Barf Mountain`,
-          combat: new CombatStrategy()
-            .macro(Macro.skill($skill`Infinite Loop`), getTodaysHolidayWanderers())
-            .macro(() =>
-              Macro.tryItem($item`train whistle`)
-                .trySkill($skill`Bowl Straight Up`)
-                .trySkill($skill`Sing Along`)
-                .trySkill($skill`Extract Jelly`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .externalIf(
-                  myFamiliar() === $familiar`Hobo Monkey`,
-                  Macro.while_(
-                    `!match "shoulder, and hands you some Meat." && !pastround 20 && !hppercentbelow 25`,
-                    Macro.item($item`seal tooth`)
-                  )
-                )
-                .trySkill($skill`Double Nanovision`)
-                .attack()
-                .repeat()
-            ),
-          limit: { tries: 550 },
-          tracking: "GooFarming",
-        },
-      ],
-    },
-    {
-      name: "Grey You Prism",
-      completed: () => getCurrentLeg() !== Leg.GreyYou,
-      tasks: [
-        {
-          name: "Free King",
-          completed: () => myClass() !== $class`Grey Goo`,
-          prepare: () => {
-            cliExecute("mcd 0");
-            useFamiliar($familiar`Grey Goose`);
-            maximize(
-              `${targetClass(false).primestat} experience, 5 ${
-                targetClass(false).primestat
-              } experience percent, 10 familiar experience, ${noML()}`,
-              false
-            );
-          },
-          do: (): void => {
-            cliExecute(`loopgyou class=${toInt(targetClass(false))}`);
-            set("_freshOutOfGreyYou", true);
-            set("goorboNextClass", "");
-            cliExecute("pull all; refresh all"); //if we somehow didn't already pull everything.
-            print(`Grey Goose exp at prism break: ${$familiar`Grey Goose`.experience}/400`);
-          },
-          clear: "all",
-        },
-      ],
-    },
-    {
-      name: "Post-Grey You Leveling",
-      completed: () => getCurrentLeg() !== Leg.GreyYou || myLevel() >= args.targetlevel,
-      tasks: [
-        // {
-        //   name: "Drink Pre-Tune",
-        //   ready: () =>
-        //     have($item`mime army shotglass`) &&
-        //     myPrimestat() === $stat`Muscle` &&
-        //     mySign().toLowerCase() === "blender",
-        //   completed: () =>
-        //     get("_mimeArmyShotglassUsed") || !have($item`hewn moon-rune spoon`) || get("moonTuned"),
-        //   do: () => drink(1, $item`Boris's beer`),
-        // },
-        // {
-        //   name: "Moon Spoon",
-        //   ready: () => myPrimestat() === $stat`Muscle`,
-        //   completed: () =>
-        //     !have($item`hewn moon-rune spoon`) ||
-        //     get("moonTuned") ||
-        //     mySign().toLowerCase() === "wombat",
-        //   do: () => cliExecute("spoon wombat"),
-        // },
-        {
-          name: "Level Up",
-          completed: () => myLevel() >= args.targetlevel,
-          do: () =>
-            cliExecute(
-              `levelup targetlevel=${args.targetlevel} buffy=${args.buffy}${
-                args.clan ? ` clan="${args.clan}"` : ""
-              }`
-            ),
-          clear: "all",
-          tracking: "Leveling",
-        },
-      ],
-    },
-    {
       name: "Post-Grey You Aftercore",
-      completed: () => getCurrentLeg() !== Leg.GreyYou,
+      ready: () => myDaycount() === 1 && get("kingLiberated", false),
+      completed: () => getCurrentLeg() !== Leg.Smol,
       tasks: [
         {
           name: "Drink Pre-Tune",
@@ -1030,7 +622,10 @@ export function GyouQuests(): Quest[] {
           name: "Offhand Remarkable",
           // eslint-disable-next-line libram/verify-constants
           ready: () => have($item`August Scepter`),
-          completed: () => !have($skill`Aug. 13th: Left/Off Hander's Day!`) || have($effect`Offhand Remarkable`) || get("_aug13Cast", false),
+          completed: () =>
+            !have($skill`Aug. 13th: Left/Off Hander's Day!`) ||
+            have($effect`Offhand Remarkable`) ||
+            get("_aug13Cast", false),
           do: () =>
             // eslint-disable-next-line libram/verify-constants
             useSkill($skill`Aug. 13th: Left/Off Hander's Day!`),

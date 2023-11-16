@@ -25,7 +25,6 @@ import {
   myMeat,
   myPrimestat,
   print,
-  putCloset,
   pvpAttacksLeft,
   restoreHp,
   restoreMp,
@@ -564,15 +563,14 @@ export function AftercoreQuest(): Quest {
         },
       },
       {
-        name: "Summon Soap Knife",
-        completed: () => !have($skill`That's Not a Knife`) || get("_discoKnife"),
-        prepare: () => putCloset(itemAmount($item`soap knife`), $item`soap knife`),
-        do: () => useSkill($skill`That's Not a Knife`),
+        name: "Prepare for LoopSmol",
+        completed: () => have($item`Pizza of Legend`),
+        do: () => cliExecute("acquire Pizza of Legend"),
         post: () => takeCloset(closetAmount($item`soap knife`), $item`soap knife`),
       },
       {
-        name: "Ascend Grey You",
-        completed: () => getCurrentLeg() >= Leg.GreyYou,
+        name: "Ascend Smol",
+        completed: () => getCurrentLeg() >= Leg.Smol,
         do: (): void => {
           printPermPlan();
           if (targetPerms(false).find((sk) => !have(sk)))
@@ -604,15 +602,15 @@ export function AftercoreQuest(): Quest {
               ? "wombat"
               : args.moonsign
           );
-          ascend(
-            $path`Grey You`,
-            $class`Grey Goo`,
-            Lifestyle.softcore,
-            moonsign,
-            $item`astral six-pack`,
-            args.astralpet === $item`none` ? undefined : args.astralpet,
-            { permSkills: skillsToPerm, neverAbort: false }
-          );
+          ascend({
+            path: $path`A Shrunken Adventurer am I`,
+            playerClass: args.class,
+            lifestyle: 2,
+            moon: moonsign,
+            consumable: $item`astral six-pack`,
+            pet: args.astralpet === $item`none` ? undefined : args.astralpet,
+            permOptions: { permSkills: skillsToPerm, neverAbort: false },
+          });
           if (visitUrl("choice.php").includes("somewhat-human-shaped mass of grey goo nanites"))
             runChoice(1);
           cliExecute("refresh all");
