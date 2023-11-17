@@ -612,7 +612,7 @@ export function AftercoreQuest(): Quest {
           );
           ascend({
             path: $path`A Shrunken Adventurer am I`,
-            playerClass: args.class,
+            playerClass: args.defaultclass,
             lifestyle: 2,
             moon: moonsign,
             consumable: $item`astral six-pack`,

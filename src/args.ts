@@ -98,18 +98,6 @@ export const args = Args.create(
       toClass,
       "CLASS"
     ),
-    class: Args.custom(
-      {
-        help: "Choose the class to choose at prism break. If set, will override any class that might be desired for skill-perming purposes",
-        options:
-          $classes`none, Seal Clubber, Turtle Tamer, Pastamancer, Sauceror, Disco Bandit, Accordion Thief`.map(
-            (cl) => [cl]
-          ),
-        default: $class`none`,
-      },
-      toClass,
-      "CLASS"
-    ),
     clan: Args.string({
       help: `Your VIP Clan. Smol will whitelist into it at the beginning of your day. Requires clan whitelist.`,
     }),
