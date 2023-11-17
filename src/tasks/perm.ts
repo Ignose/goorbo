@@ -67,7 +67,7 @@ const permList = [
   permBlockList,
 ];
 
-export const defaultPermList = () => permList.slice(0, args.permtier + 1);
+export const defaultPermList = () => permList.slice(0, 5);
 
 export function permOptions(planning: boolean): Skill[][] {
   //planning = true: next run, false: this run

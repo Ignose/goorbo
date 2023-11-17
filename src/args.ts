@@ -1,7 +1,7 @@
 import { Args } from "grimoire-kolmafia";
 import { Item, toClass } from "kolmafia";
 import { $class, $classes, $item, $items, get } from "libram";
-import { permTiers } from "./tasks/perm";
+//import { permTiers } from "./tasks/perm";
 import { toMoonSign } from "./tasks/utils";
 
 export const args = Args.create(
@@ -43,7 +43,7 @@ export const args = Args.create(
     }),
 
     //configuration args
-    permtier: Args.number({
+    /*permtier: Args.number({
       help: `Target perming all skills in the given tier and all better tiers. Choose 0 to only perm non-gnome, non-guild skills that you may have manually learned`,
       options: [[-1, "Do not perm anything"] as [number, (string | undefined)?]].concat(
         permTiers.map((str, num) => [
@@ -53,7 +53,7 @@ export const args = Args.create(
       ),
       // options: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8].map((num) => [num]),
       default: 6,
-    }),
+    }),*/
     pvp: Args.flag({ help: "If true, break hippy stone and do pvp.", default: false }),
     astralpet: Args.custom(
       {
