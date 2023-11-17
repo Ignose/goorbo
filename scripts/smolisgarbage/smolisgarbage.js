@@ -8492,7 +8492,7 @@ function args_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.sl
 
 
 
-
+//import { permTiers } from "./tasks/perm";
 
 var args = Args.create("smolisgarbage", "This is a full-day script for smollooping. It aims to be a single-press script that will take you through your Aftercore and Grey You legs, collecting fat loot tokens, getting a Steel Liver, and leveling up to level 13 before running garbo. It chooses a class for you to learn guild skills, and to perm learned skills upon ascension.", {
   //alternate-run flags
@@ -8528,12 +8528,17 @@ var args = Args.create("smolisgarbage", "This is a full-day script for smolloopi
     help: "If given, abort during the prepare() step for the task with matching name."
   }),
   //configuration args
-  permtier: Args.number({
-    help: "Target perming all skills in the given tier and all better tiers. Choose 0 to only perm non-gnome, non-guild skills that you may have manually learned",
-    options: [[-1, "Do not perm anything"]].concat(permTiers.map((str, num) => [num, str.length < 40 ? str.substring(9) : "".concat(str.substring(9, 37), "...")])),
+  /*permtier: Args.number({
+    help: `Target perming all skills in the given tier and all better tiers. Choose 0 to only perm non-gnome, non-guild skills that you may have manually learned`,
+    options: [[-1, "Do not perm anything"] as [number, (string | undefined)?]].concat(
+      permTiers.map((str, num) => [
+        num,
+        str.length < 40 ? str.substring(9) : `${str.substring(9, 37)}...`,
+      ])
+    ),
     // options: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8].map((num) => [num]),
-    default: 6
-  }),
+    default: 6,
+  }),*/
   pvp: Args.flag({
     help: "If true, break hippy stone and do pvp.",
     default: false
@@ -8613,7 +8618,7 @@ $skills(perm_templateObject9 || (perm_templateObject9 = perm_taggedTemplateLiter
 $skills(perm_templateObject10 || (perm_templateObject10 = perm_taggedTemplateLiteral([""]))).filter(sk => sk.permable && sk.level >= 0),
 //tier 8
 permBlockList];
-var defaultPermList = () => permList.slice(0, args.permtier + 1);
+var defaultPermList = () => permList.slice(0, 5);
 function permOptions(planning) {
   //planning = true: next run, false: this run
   var classChoices = planning ? baseClasses : baseClasses.includes((0,external_kolmafia_namespaceObject.myClass)()) ? [(0,external_kolmafia_namespaceObject.myClass)()] : [perm_getClass("goorboNextClass", args.defaultclass)];
