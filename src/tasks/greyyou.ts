@@ -1,6 +1,5 @@
 import { CombatStrategy, step } from "grimoire-kolmafia";
 import {
-  availableAmount,
   buy,
   buyUsingStorage,
   cliExecute,
@@ -31,7 +30,6 @@ import {
   pvpAttacksLeft,
   restoreHp,
   restoreMp,
-  retrieveItem,
   setProperty,
   storageAmount,
   takeCloset,
@@ -54,7 +52,6 @@ import {
   $skill,
   clamp,
   get,
-  getTodaysHolidayWanderers,
   have,
   Macro,
   set,
@@ -343,61 +340,6 @@ export function GyouQuests(): Quest[] {
           name: "Breakfast",
           completed: () => get("breakfastCompleted"),
           do: () => cliExecute("breakfast"),
-        },
-        {
-          name: "Daily Dungeon",
-          completed: () => get("dailyDungeonDone"),
-          acquire:
-            $items`eleven-foot pole, Pick-O-Matic lockpicks, ring of Detect Boring Doors`.map(
-              (it) => ({ item: it, price: 1000 })
-            ),
-          outfit: () => {
-            return {
-              familiar: bestFam(),
-              ...(get("_lastDailyDungeonRoom") % 5 === 4
-                ? { acc1: $item`ring of Detect Boring Doors` }
-                : {}),
-              modifier: `${maxBase()}, 250 bonus carnivorous potted plant, 100 familiar experience`,
-            };
-          },
-          prepare: (): void => {
-            if (
-              !get("_dailyDungeonMalwareUsed") &&
-              itemAmount($item`fat loot token`) < 3 &&
-              itemAmount($item`daily dungeon malware`) === 0
-            ) {
-              if (
-                availableAmount($item`BACON`) >= 150 &&
-                !get("_internetDailyDungeonMalwareBought")
-              ) {
-                retrieveItem(150, $item`BACON`);
-                buy($coinmaster`internet meme shop`, 1, $item`daily dungeon malware`);
-              } else retrieveItem(1, $item`daily dungeon malware`);
-            }
-            restoreHp(0.75 * myMaxhp());
-            restoreMp(20);
-          },
-          do: $location`The Daily Dungeon`,
-          choices: {
-            692: 3, //dd door: lockpicks
-            689: 1, //dd final chest : open
-            690: 2, //dd chest 1: boring door
-            691: 2, //dd chest 2: boring door
-            693: 2, //dd trap: skip
-          },
-          combat: new CombatStrategy()
-            .macro(Macro.skill($skill`Infinite Loop`), getTodaysHolidayWanderers())
-            .macro(() =>
-              Macro.externalIf(
-                !get("_dailyDungeonMalwareUsed"),
-                Macro.tryItem($item`daily dungeon malware`)
-              )
-                .tryItem($item`train whistle`)
-                .tryItem($item`porquoise-handled sixgun`)
-                .attack()
-                .repeat()
-            ),
-          limit: { tries: 15 },
         },
         {
           name: "Laugh Floor",
