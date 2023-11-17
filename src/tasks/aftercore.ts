@@ -76,6 +76,11 @@ export function AftercoreQuest(): Quest {
         do: () => cliExecute(`/whitelist ${args.clan}`),
       },
       {
+        name: "PTrack me",
+        completed: () => !args.ptrack || get("_ptrackStart", false),
+        do: () => cliExecute("ptrack add start; set _ptrackStart = true"),
+      },
+      {
         name: "Prep Fireworks Shop",
         completed: () => !have($item`Clan VIP Lounge key`) || get("_goorboFireworksPrepped", false),
         do: () => {

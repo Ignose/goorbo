@@ -652,6 +652,11 @@ export function GyouQuests(): Quest[] {
           do: () => cliExecute(`csend * soap knife to frazazel || Thanks for writing goorbo!`),
         },
         {
+          name: "PTrack The End",
+          completed: () => !args.ptrack || get("_ptrackEnd", false),
+          do: () => cliExecute("ptrack add end; ptrack Recap; set _ptrackEnd = true"),
+        },
+        {
           name: "Alert-No Nightcap",
           ready: () => !doneAdventuring(),
           completed: () => stooperDrunk(),

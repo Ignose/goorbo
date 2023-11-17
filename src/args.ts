@@ -55,6 +55,10 @@ export const args = Args.create(
       default: 6,
     }),*/
     pvp: Args.flag({ help: "If true, break hippy stone and do pvp.", default: false }),
+    ptrack: Args.flag({
+      help: "If true, use ptrack at start and finish for ptrack profit tracking.",
+      default: false,
+    }),
     astralpet: Args.custom(
       {
         help: "Choose the astral pet you want to buy in valhalla",
