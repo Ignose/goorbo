@@ -283,7 +283,10 @@ export function GyouQuests(): Quest[] {
         },
         {
           name: "Sober Up",
-          completed: () => myInebriety() <= 15,
+          completed: () =>
+            myInebriety() <= 15 ||
+            get("_mimeArmyShotglassUsed") ||
+            get("_sweatOutSomeBoozeUsed", 0) === 3,
           do: (): void => {
             if (checkMelange) {
               cliExecute("acquire spice melange; use spice melange");
