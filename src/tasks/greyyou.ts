@@ -242,7 +242,7 @@ export function GyouQuests(): Quest[] {
             step("questL13Final") > 11 &&
             (have($item`designer sweatpants`) || checkMelange) &&
             have($skill`Drinking to Drink`) &&
-            have($item`distention pill`),
+            storageAmount($item`distention pill`) >= 1,
           completed: () => myInebriety() >= 2,
           do: (): void => {
             if (have($skill`The Ode to Booze`)) useSkill($skill`The Ode to Booze`);
