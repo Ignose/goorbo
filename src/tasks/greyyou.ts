@@ -291,7 +291,8 @@ export function GyouQuests(): Quest[] {
             while (get("_sweatOutSomeBoozeUsed", 0) < 3) {
               useSkill($skill`Sweat Out Some Booze`);
             }
-            if (!get("_sobrieTeaUsed", false)) cliExecute("acquire sobrie-tea");
+            if (!get("_sobrieTeaUsed", false))
+              cliExecute("acquire cuppa sobrie tea; use cuppa sobrie tea");
             use($item`distention pill`);
           },
         },
