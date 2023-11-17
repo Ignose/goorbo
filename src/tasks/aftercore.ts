@@ -5,7 +5,6 @@ import {
   cliExecute,
   getCampground,
   getClanName,
-  getPermedSkills,
   getWorkshed,
   guildStoreAvailable,
   haveEffect,
@@ -41,7 +40,6 @@ import {
   $path,
   $phylum,
   $skill,
-  $skills,
   ascend,
   AsdonMartin,
   DNALab,
@@ -62,7 +60,6 @@ import {
   maxBase,
   noML,
   stooperDrunk,
-  toMoonSign,
   totallyDrunk,
 } from "./utils";
 import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
@@ -533,29 +530,12 @@ export function AftercoreQuest(): Quest {
 
           const skillsToPerm = new Map();
           targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));
-          const nPerms = targetPerms(true);
 
-          const moonsign = toMoonSign(
-            have($item`hewn moon-rune spoon`) ||
-              !$skills`Torso Awareness, Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding`.find(
-                (sk) => !(sk.name in getPermedSkills()) //skip checking gnomes if you have a moon spoon or have all gnome skills permed
-              )
-              ? args.moonsign
-              : nPerms.includes($skill`Torso Awareness`) ||
-                (!!$skills`Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding`.find(
-                  (sk) => nPerms.includes(sk)
-                ) &&
-                  !$skills`Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding`.find(
-                    (sk) => !nPerms.includes(sk) && !(sk.name in getPermedSkills())
-                  )) //plan to perm Torso Awareness or (plan to perm at least 1 gnome skill and will end with all gnome skills permed)
-              ? "wombat"
-              : args.moonsign
-          );
           ascend({
             path: $path`A Shrunken Adventurer am I`,
             playerClass: args.defaultclass,
             lifestyle: 2,
-            moon: moonsign,
+            moon: args.moonsign,
             consumable: $item`astral six-pack`,
             pet: args.astralpet === $item`none` ? undefined : args.astralpet,
             permOptions: { permSkills: skillsToPerm, neverAbort: false },
