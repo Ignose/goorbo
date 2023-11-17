@@ -8543,6 +8543,10 @@ var args = Args.create("smolisgarbage", "This is a full-day script for smolloopi
     help: "If true, break hippy stone and do pvp.",
     default: false
   }),
+  ptrack: Args.flag({
+    help: "If true, use ptrack at start and finish for ptrack profit tracking.",
+    default: false
+  }),
   astralpet: Args.custom({
     help: "Choose the astral pet you want to buy in valhalla",
     options: template_string_$items(args_templateObject || (args_templateObject = args_taggedTemplateLiteral(["astral bludgeon, astral shield, astral chapeau, astral bracer, astral longbow, astral shorts, astral mace, astral trousers, astral ring, astral statuette, astral pistol, astral mask, astral pet sweater, astral shirt, astral belt, none"]))).map(it => [it]),
@@ -8700,6 +8704,10 @@ function AftercoreQuest() {
       name: "Whitelist VIP Clan",
       completed: () => !args.clan || (0,external_kolmafia_namespaceObject.getClanName)().toLowerCase() === args.clan.toLowerCase(),
       do: () => (0,external_kolmafia_namespaceObject.cliExecute)("/whitelist ".concat(args.clan))
+    }, {
+      name: "PTrack me",
+      completed: () => !args.ptrack || property_get("_ptrackStart", false),
+      do: () => (0,external_kolmafia_namespaceObject.cliExecute)("ptrack add start; set _ptrackStart = true")
     }, {
       name: "Prep Fireworks Shop",
       completed: () => !lib_have(template_string_$item(aftercore_templateObject || (aftercore_templateObject = aftercore_taggedTemplateLiteral(["Clan VIP Lounge key"])))) || property_get("_goorboFireworksPrepped", false),
@@ -9498,6 +9506,10 @@ function GyouQuests() {
       ready: () => args.tip,
       completed: () => !lib_have(template_string_$item(_templateObject143 || (_templateObject143 = greyyou_taggedTemplateLiteral(["soap knife"])))),
       do: () => (0,external_kolmafia_namespaceObject.cliExecute)("csend * soap knife to frazazel || Thanks for writing goorbo!")
+    }, {
+      name: "PTrack The End",
+      completed: () => !args.ptrack || property_get("_ptrackEnd", false),
+      do: () => (0,external_kolmafia_namespaceObject.cliExecute)("ptrack add end; ptrack Recap; set _ptrackEnd = true")
     }, {
       name: "Alert-No Nightcap",
       ready: () => !doneAdventuring(),
