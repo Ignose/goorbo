@@ -20,7 +20,7 @@ env:
 jobs:
   build-push:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/smol-is-garbage'
+    if: github.ref == 'refs/heads/main'
 
     steps:
       # Checkout source code
