@@ -30,6 +30,7 @@ import {
   pvpAttacksLeft,
   restoreHp,
   restoreMp,
+  retrieveItem,
   setProperty,
   storageAmount,
   takeCloset,
@@ -239,7 +240,7 @@ export function GyouQuests(): Quest[] {
             step("questL13Final") > 11 &&
             (have($item`designer sweatpants`) || checkMelange) &&
             have($skill`Drinking to Drink`) &&
-            storageAmount($item`distention pill`) >= 1,
+            storageAmount($item`synthetic dog hair pill`) >= 1,
           completed: () => myInebriety() >= 2,
           do: (): void => {
             if (have($skill`The Ode to Booze`)) useSkill($skill`The Ode to Booze`);
@@ -291,9 +292,11 @@ export function GyouQuests(): Quest[] {
             while (get("_sweatOutSomeBoozeUsed", 0) < 3) {
               useSkill($skill`Sweat Out Some Booze`);
             }
-            if (!get("_sobrieTeaUsed", false))
-              cliExecute("acquire cuppa sobrie tea; use cuppa sobrie tea");
-            use($item`distention pill`);
+            if (!get("_sobrieTeaUsed", false)) {
+              retrieveItem($item`cuppa Sobrie tea`);
+              use($item`cuppa Sobrie tea`);
+            }
+            use($item`synthetic dog hair pill`);
           },
         },
         {
