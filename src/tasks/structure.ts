@@ -12,7 +12,6 @@ export type Quest = BaseQuest<Task>;
 export enum Leg {
   Aftercore = 0,
   Smol = 1,
-  last = 1,
 }
 
 export function getCurrentLeg(): number {
