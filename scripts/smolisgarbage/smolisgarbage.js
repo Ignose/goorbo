@@ -8258,6 +8258,8 @@ function aftercore_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strin
 
 //import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
 
+//import { targetPerms } from "./perm";
+
 function AftercoreQuest() {
   return {
     name: "Aftercore",
