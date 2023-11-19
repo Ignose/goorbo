@@ -9098,20 +9098,20 @@ function AftercoreQuest() {
         if (targetPerms(false).find(sk => !lib_have(sk))) throw new Error("Trying to ascend, but don't have the following targeted skills: [".concat(targetPerms(false).filter(sk => !lib_have(sk)).join(", "), "]"));
         var nClass = targetClass(true);
         setClass("goorboNextClass", nClass);
-        var skillsToPerm = new Map();
-        targetPerms(false).forEach(sk => skillsToPerm.set(sk, Lifestyle.softcore));
+
+        /*const skillsToPerm = new Map();
+        targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));*/
+
         ascend({
           path: $path(aftercore_templateObject78 || (aftercore_templateObject78 = aftercore_taggedTemplateLiteral(["A Shrunken Adventurer am I"]))),
           playerClass: args.defaultclass,
           lifestyle: 2,
           moon: args.moonsign,
           consumable: template_string_$item(aftercore_templateObject79 || (aftercore_templateObject79 = aftercore_taggedTemplateLiteral(["astral six-pack"]))),
-          pet: args.astralpet === template_string_$item(aftercore_templateObject80 || (aftercore_templateObject80 = aftercore_taggedTemplateLiteral(["none"]))) ? undefined : args.astralpet,
-          permOptions: {
-            permSkills: skillsToPerm,
-            neverAbort: false
-          }
+          pet: args.astralpet === template_string_$item(aftercore_templateObject80 || (aftercore_templateObject80 = aftercore_taggedTemplateLiteral(["none"]))) ? undefined : args.astralpet
+          /*permOptions: { permSkills: skillsToPerm, neverAbort: false },*/
         });
+
         if ((0,external_kolmafia_namespaceObject.visitUrl)("choice.php").includes("somewhat-human-shaped mass of grey goo nanites")) (0,external_kolmafia_namespaceObject.runChoice)(1);
         (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
       }
