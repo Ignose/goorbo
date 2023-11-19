@@ -1,5 +1,5 @@
 import {
-  Class,
+  //Class,
   Familiar,
   getPermedSkills,
   Item,
@@ -9,7 +9,7 @@ import {
   storageAmount,
 } from "kolmafia";
 import {
-  $class,
+  //$class,
   $familiar,
   $familiars,
   $item,
@@ -19,7 +19,7 @@ import {
   get,
   have,
 } from "libram";
-import { defaultPermList, permTiers, targetClass, targetPerms } from "./perm";
+//import { defaultPermList, permTiers, targetClass, targetPerms } from "./perm";
 
 type SpecialThing = {
   have: () => boolean;
@@ -200,10 +200,10 @@ export function checkReqs(printout = true): string {
   return out;
 }
 
-function spanWrap(text: string, color: string): string {
+/*function spanWrap(text: string, color: string): string {
   return `<font color="${color}">${text}</font>`;
 }
-export function coloredSkill(sk: Skill, nPerms: Skill[], nClass: Class): string {
+ export function coloredSkill(sk: Skill, nPerms: Skill[], nClass: Class): string {
   return sk.name in getPermedSkills()
     ? spanWrap(sk.name, "#888")
     : nPerms.includes(sk) && have(sk)
@@ -236,4 +236,4 @@ export function checkPerms(printout = true): string {
   );
   if (printout) printHtml(out, false);
   return out;
-}
+}*/

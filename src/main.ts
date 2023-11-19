@@ -3,9 +3,9 @@ import { Args, getTasks } from "grimoire-kolmafia";
 import { AftercoreQuest } from "./tasks/aftercore";
 import { GyouQuests } from "./tasks/greyyou";
 import { ProfitTrackingEngine } from "./engine/engine";
-import { checkPerms, checkReqs } from "./tasks/sim";
+import { checkReqs } from "./tasks/sim";
 import { args } from "./args";
-import { printPermPlan } from "./tasks/perm";
+//import { printPermPlan } from "./tasks/perm";
 
 const version = "0.6.8";
 
@@ -19,14 +19,14 @@ export function main(command?: string): void {
   //   print("work in progress");
   //   return;
   // }
-  if (args.simperms) {
+  /*if (args.simperms) {
     checkPerms();
     printPermPlan();
     return;
-  }
+  }*/
   if (args.sim) {
     checkReqs();
-    printPermPlan();
+    //printPermPlan();
     return;
   }
   if (args.version) {

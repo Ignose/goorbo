@@ -46,7 +46,7 @@ import {
   get,
   getTodaysHolidayWanderers,
   have,
-  Lifestyle,
+  //Lifestyle,
   Macro,
   set,
   uneffect,
@@ -62,7 +62,7 @@ import {
   stooperDrunk,
   totallyDrunk,
 } from "./utils";
-import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
+//import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
 import { args } from "../args";
 
 export function AftercoreQuest(): Quest {
@@ -523,15 +523,13 @@ export function AftercoreQuest(): Quest {
         name: "Ascend Smol",
         completed: () => getCurrentLeg() >= Leg.Smol,
         do: (): void => {
-          printPermPlan();
+          /*printPermPlan();
           if (targetPerms(false).find((sk) => !have(sk)))
             throw new Error(
               `Trying to ascend, but don't have the following targeted skills: [${targetPerms(false)
                 .filter((sk) => !have(sk))
                 .join(", ")}]`
-            );
-          const nClass = targetClass(true);
-          setClass("goorboNextClass", nClass);
+            );*/
 
           /*const skillsToPerm = new Map();
           targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));*/
