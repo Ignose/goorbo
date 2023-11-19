@@ -8242,6 +8242,85 @@ var args = Args.create("smolisgarbage", "This is a full-day script for smolloopi
     default: false
   })
 });
+;// CONCATENATED MODULE: ./src/tasks/perm.ts
+var perm_templateObject, perm_templateObject2, perm_templateObject3, perm_templateObject4, perm_templateObject5, perm_templateObject6, perm_templateObject7, perm_templateObject8, perm_templateObject9;
+function perm_toConsumableArray(arr) { return perm_arrayWithoutHoles(arr) || perm_iterableToArray(arr) || perm_unsupportedIterableToArray(arr) || perm_nonIterableSpread(); }
+function perm_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function perm_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return perm_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return perm_arrayLikeToArray(o, minLen); }
+function perm_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function perm_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return perm_arrayLikeToArray(arr); }
+function perm_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function perm_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+/*export function getClass(property: string, _default: Class): Class {
+  return toClass(get(property, _default.toString()));
+}
+export function setClass(property: string, value: Class): void {
+  set(property, value.toString());
+}
+
+export const baseClasses = $classes`Seal Clubber, Turtle Tamer, Pastamancer, Sauceror, Disco Bandit, Accordion Thief`;
+*/
+var gnomeSkills = $skills(perm_templateObject || (perm_templateObject = perm_taggedTemplateLiteral(["Torso Awareness, Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding"])));
+var permBlockList = [].concat(perm_toConsumableArray($skills(perm_templateObject2 || (perm_templateObject2 = perm_taggedTemplateLiteral(["CLEESH, Chronic Indigestion"])))), perm_toConsumableArray(external_kolmafia_namespaceObject.Skill.all().filter(sk => external_kolmafia_namespaceObject.Item.all().find(it => it.skill === sk && it.reusable && lib_have(it)))));
+var permTiers = (/* unused pure expression or super */ null && (["Tier 0 - All permable non-guild, non-gnome skills (never target these, but perm them if you know them)", "Tier 1 - Needed for the script to run at its best", "Tier 2 - Great skills", "Tier 3 - Good skills", "Tier 4 - QoL skills", "Tier 5 - Ascension-relevant skills", "Tier 6 - Skills with non-zero utility", "Tier 7 - All other guild skills", "Tier 8 - Otherwise-blocked skills"]));
+var permList = [
+//tier 0
+external_kolmafia_namespaceObject.Skill.all().filter(sk => sk.permable && sk.level === -1 && !permBlockList.includes(sk) && !gnomeSkills.includes(sk)), //tier 1
+$skills(perm_templateObject3 || (perm_templateObject3 = perm_taggedTemplateLiteral(["Curse of Weaksauce, Itchy Curse Finger, Torso Awareness, Cannelloni Cocoon"]))), //tier 2
+$skills(perm_templateObject4 || (perm_templateObject4 = perm_taggedTemplateLiteral(["Nimble Fingers, Amphibian Sympathy, Leash of Linguini, Thief Among the Honorable, Expert Panhandling, Disco Leer, Wrath of the Wolverine, Furious Wallop, Five Finger Discount, Double-Fisted Skull Smashing, Impetuous Sauciness, Tao of the Terrapin, Saucestorm"]))), //tier 3
+$skills(perm_templateObject5 || (perm_templateObject5 = perm_taggedTemplateLiteral(["Tongue of the Walrus, Mad Looting Skillz, Smooth Movement, Musk of the Moose, The Polka of Plenty, The Sonata of Sneakiness, Carlweather's Cantata of Confrontation, Mariachi Memory"]))), //tier 4
+$skills(perm_templateObject6 || (perm_templateObject6 = perm_taggedTemplateLiteral(["Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding, Ambidextrous Funkslinging, The Long View, Wisdom of the Elder Tortoises, Inner Sauce, Springy Fusilli, Overdeveloped Sense of Self Preservation, Pulverize"]))), //tier 5
+$skills(perm_templateObject7 || (perm_templateObject7 = perm_taggedTemplateLiteral(["Pastamastery, Advanced Cocktailcrafting, The Ode to Booze, The Magical Mojomuscular Melody, Advanced Saucecrafting, Saucemaven, The Way of Sauce, Fat Leon's Phat Loot Lyric, Empathy of the Newt, The Moxious Madrigal, Stuffed Mortar Shell, Flavour of Magic, Elemental Saucesphere, Spirit of Ravioli, Lunging Thrust-Smack, Entangling Noodles, Cold-Blooded Fearlessness, Northern Exposure, Diminished Gag Reflex, Tolerance of the Kitchen, Heart of Polyester, Irrepressible Spunk, Saucegeyser, Scarysauce, Ire of the Orca, Batter Up!, Disco Fever, Rage of the Reindeer, Testudinal Teachings, Disco Nap, Adventurer of Leisure, Armorcraftiness"]))), //tier 6
+$skills(perm_templateObject8 || (perm_templateObject8 = perm_taggedTemplateLiteral(["Superhuman Cocktailcrafting, Transcendental Noodlecraft, Super-Advanced Meatsmithing, Patient Smile, Wry Smile, Knowing Smile, Aloysius' Antiphon of Aptitude, Pride of the Puffin, Ur-Kel's Aria of Annoyance, Sensitive Fingers, Master Accordion Master Thief, Skin of the Leatherback, Hide of the Walrus, Astral Shell, Ghostly Shell, Subtle and Quick to Anger, Master Saucier, Hero of the Half-Shell, Shield of the Pastalord, Saucy Salve, The Power Ballad of the Arrowsmith, Jalape\xF1o Saucesphere, Claws of the Walrus, Shell Up, Brawnee's Anthem of Absorption, Reptilian Fortitude, The Psalm of Pointiness, Spiky Shell, Stiff Upper Lip, Blubber Up, Disco Smirk, Blood Sugar Sauce Magic, Cletus's Canticle of Celerity, Suspicious Gaze, Icy Glare, Dirge of Dreadfulness, Snarl of the Timberwolf, Stevedave's Shanty of Superiority, Northern Explosion, That's Not a Knife"]))),
+//tier 7
+$skills(perm_templateObject9 || (perm_templateObject9 = perm_taggedTemplateLiteral([""]))).filter(sk => sk.permable && sk.level >= 0),
+//tier 8
+permBlockList];
+var defaultPermList = () => permList.slice(0, 5);
+function permOptions() {
+  return defaultPermList().map(sks => sks.filter(sk => !(sk.toString() in (0,external_kolmafia_namespaceObject.getPermedSkills)()))); //for next run, exclude all skills that we are planning to perm this run, and allow all guild and gnome skills.
+}
+
+function permTier() {
+  // the highest tier of unpermed skills available. Returns 0 if no non-tier 0 skills are available
+  return permOptions().slice(1).findIndex(sks => sks.length !== 0) + 1;
+}
+function targetPerms() {
+  var pOptions = permOptions();
+  var tier = permTier();
+  var maxQty = Math.floor(((0,external_kolmafia_namespaceObject.toInt)(property_get("bankedKarma", 0)) - 11) / 100);
+  if (tier > maxQty || tier === 0)
+    //don't perm anything (bank karma), but do perm high-tier skills you happen to already know (probably due to Big Book or manually used skillbooks)
+    return pOptions.slice(0, tier + 1) //skills in tiers <= your current best perm target
+    .flat().filter(sk => lib_have(sk)).slice(0, maxQty); //don't plan to perm more than we have karma for
+
+  var qty = Math.min(maxQty, tier + Math.ceil(Math.sqrt(Math.max(0, maxQty - tier))));
+  return pOptions.flat().filter(sk => !gnomeSkills.includes(sk) || (0,external_kolmafia_namespaceObject.gnomadsAvailable)()) //filter out non-targetClass skills
+  .slice(0, qty);
+}
+
+/*function planHelper(perms: string[], karma: number) {
+  if (perms.length > 0)
+    return `Perm plan: [${perms.join(
+      ", "
+    )}] - Expected Karma: ${karma}`;
+  else return `Nothing to perm!`;
+}
+
+export function printPermPlan() {
+  const cPerms = targetPerms();
+  print();
+  printHtml(
+    `Current ${planHelper(
+      cPerms.map((sk) => coloredSkill(sk, cPerms)),
+      expectedKarma()
+    )}`,
+    true
+  );
+}*/
 ;// CONCATENATED MODULE: ./src/tasks/aftercore.ts
 var aftercore_templateObject, aftercore_templateObject2, aftercore_templateObject3, aftercore_templateObject4, aftercore_templateObject5, aftercore_templateObject6, aftercore_templateObject7, aftercore_templateObject8, aftercore_templateObject9, aftercore_templateObject10, aftercore_templateObject11, aftercore_templateObject12, aftercore_templateObject13, aftercore_templateObject14, aftercore_templateObject15, aftercore_templateObject16, aftercore_templateObject17, aftercore_templateObject18, aftercore_templateObject19, aftercore_templateObject20, aftercore_templateObject21, aftercore_templateObject22, aftercore_templateObject23, aftercore_templateObject24, aftercore_templateObject25, aftercore_templateObject26, aftercore_templateObject27, aftercore_templateObject28, aftercore_templateObject29, aftercore_templateObject30, aftercore_templateObject31, aftercore_templateObject32, aftercore_templateObject33, aftercore_templateObject34, aftercore_templateObject35, aftercore_templateObject36, aftercore_templateObject37, aftercore_templateObject38, aftercore_templateObject39, aftercore_templateObject40, aftercore_templateObject41, aftercore_templateObject42, aftercore_templateObject43, aftercore_templateObject44, aftercore_templateObject45, aftercore_templateObject46, aftercore_templateObject47, aftercore_templateObject48, aftercore_templateObject49, aftercore_templateObject50, aftercore_templateObject51, aftercore_templateObject52, aftercore_templateObject53, aftercore_templateObject54, aftercore_templateObject55, aftercore_templateObject56, aftercore_templateObject57, aftercore_templateObject58, aftercore_templateObject59, aftercore_templateObject60, aftercore_templateObject61, aftercore_templateObject62, aftercore_templateObject63, aftercore_templateObject64, aftercore_templateObject65, aftercore_templateObject66, aftercore_templateObject67, aftercore_templateObject68, aftercore_templateObject69, aftercore_templateObject70, aftercore_templateObject71, aftercore_templateObject72, aftercore_templateObject73, aftercore_templateObject74, aftercore_templateObject75, aftercore_templateObject76, aftercore_templateObject77, aftercore_templateObject78, aftercore_templateObject79, aftercore_templateObject80;
 function aftercore_toConsumableArray(arr) { return aftercore_arrayWithoutHoles(arr) || aftercore_iterableToArray(arr) || aftercore_unsupportedIterableToArray(arr) || aftercore_nonIterableSpread(); }
@@ -8257,6 +8336,7 @@ function aftercore_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strin
 
 
 //import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
+
 
 function AftercoreQuest() {
   return {
@@ -8636,16 +8716,20 @@ function AftercoreQuest() {
         /*const skillsToPerm = new Map();
         targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));*/
 
+        var skillsToPerm = new Map();
+        targetPerms().forEach(sk => skillsToPerm.set(sk, Lifestyle.softcore));
         ascend({
           path: $path(aftercore_templateObject78 || (aftercore_templateObject78 = aftercore_taggedTemplateLiteral(["A Shrunken Adventurer am I"]))),
           playerClass: args.defaultclass,
           lifestyle: 2,
           moon: args.moonsign,
           consumable: template_string_$item(aftercore_templateObject79 || (aftercore_templateObject79 = aftercore_taggedTemplateLiteral(["astral six-pack"]))),
-          pet: args.astralpet === template_string_$item(aftercore_templateObject80 || (aftercore_templateObject80 = aftercore_taggedTemplateLiteral(["none"]))) ? undefined : args.astralpet
-          /*permOptions: { permSkills: skillsToPerm, neverAbort: false },*/
+          pet: args.astralpet === template_string_$item(aftercore_templateObject80 || (aftercore_templateObject80 = aftercore_taggedTemplateLiteral(["none"]))) ? undefined : args.astralpet,
+          permOptions: {
+            permSkills: skillsToPerm,
+            neverAbort: false
+          }
         });
-
         if ((0,external_kolmafia_namespaceObject.visitUrl)("choice.php").includes("somewhat-human-shaped mass of grey goo nanites")) (0,external_kolmafia_namespaceObject.runChoice)(1);
         (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
       }
