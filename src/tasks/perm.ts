@@ -1,21 +1,7 @@
-/*import {
-  Class,
-  getPermedSkills,
-  gnomadsAvailable,
-  inCasual,
-  inHardcore,
-  Item,
-  myClass,
-  print,
-  printHtml,
-  Skill,
-  toClass,
-} from "kolmafia";
-import { $class, $classes, $item, $skills, get, have, set } from "libram";
-import { coloredSkill } from "./sim";
-import { args } from "../args";
+import { getPermedSkills, gnomadsAvailable, Item, Skill, toInt } from "kolmafia";
+import { $skills, get, have } from "libram";
 
-export function getClass(property: string, _default: Class): Class {
+/*export function getClass(property: string, _default: Class): Class {
   return toClass(get(property, _default.toString()));
 }
 export function setClass(property: string, value: Class): void {
@@ -23,7 +9,9 @@ export function setClass(property: string, value: Class): void {
 }
 
 export const baseClasses = $classes`Seal Clubber, Turtle Tamer, Pastamancer, Sauceror, Disco Bandit, Accordion Thief`;
+*/
 export const gnomeSkills = $skills`Torso Awareness, Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding`;
+
 const permBlockList = [
   ...$skills`CLEESH, Chronic Indigestion`,
   ...Skill.all().filter((sk) =>
@@ -70,13 +58,9 @@ const permList = [
 export const defaultPermList = () => permList.slice(0, 5);
 
 export function permOptions(): Skill[][] {
-  //planning = true: next run, false: this ru
-  return defaultPermList().map((sks) =>
-        sks.filter(
-          (sk) =>
-            !(sk.toString() in getPermedSkills())
-        )
-      ); //for next run, exclude all skills that we are planning to perm this run, and allow all guild and gnome skills.
+  return (defaultPermList() as Skill[][]).map((sks) =>
+    sks.filter((sk) => !(sk.toString() in getPermedSkills()))
+  ); //for next run, exclude all skills that we are planning to perm this run, and allow all guild and gnome skills.
 }
 
 export function permTier() {
@@ -88,34 +72,26 @@ export function permTier() {
   );
 }
 
-export function expectedKarma(): number {
-  return (
-    expectedKarma() -
-        targetPerms().length * 100 +
-        (inHardcore() ? 200 : inCasual() ? 0 : 100)) + (args.astralpet === $item`none` ? 10 : 0
-  );
-}
-
 export function targetPerms(): Skill[] {
   const pOptions = permOptions();
   const tier = permTier();
-  const maxQty = Math.floor(expectedKarma() / 100);
+  const maxQty = Math.floor((toInt(get("bankedKarma", 0)) - 11) / 100);
   if (tier > maxQty || tier === 0)
     //don't perm anything (bank karma), but do perm high-tier skills you happen to already know (probably due to Big Book or manually used skillbooks)
-    return pOptions === [][] ? [] :
-      pOptions
-          .slice(0, tier + 1) //skills in tiers <= your current best perm target
-          .flat()
-          .filter((sk) => have(sk))
-          .slice(0, maxQty); //don't plan to perm more than we have karma for
+    return pOptions
+      .slice(0, tier + 1) //skills in tiers <= your current best perm target
+      .flat()
+      .filter((sk) => have(sk))
+      .slice(0, maxQty); //don't plan to perm more than we have karma for
 
   const qty = Math.min(maxQty, tier + Math.ceil(Math.sqrt(Math.max(0, maxQty - tier))));
-  return (pOptions.flat().filter((sk) => !gnomeSkills.includes(sk) || gnomadsAvailable())
-  ) //filter out non-targetClass skills
+  return pOptions
+    .flat()
+    .filter((sk) => !gnomeSkills.includes(sk) || gnomadsAvailable()) //filter out non-targetClass skills
     .slice(0, qty);
 }
 
-function planHelper(perms: string[], karma: number) {
+/*function planHelper(perms: string[], karma: number) {
   if (perms.length > 0)
     return `Perm plan: [${perms.join(
       ", "
