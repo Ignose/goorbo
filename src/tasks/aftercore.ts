@@ -533,8 +533,8 @@ export function AftercoreQuest(): Quest {
           const nClass = targetClass(true);
           setClass("goorboNextClass", nClass);
 
-          const skillsToPerm = new Map();
-          targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));
+          /*const skillsToPerm = new Map();
+          targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));*/
 
           ascend({
             path: $path`A Shrunken Adventurer am I`,
@@ -543,7 +543,7 @@ export function AftercoreQuest(): Quest {
             moon: args.moonsign,
             consumable: $item`astral six-pack`,
             pet: args.astralpet === $item`none` ? undefined : args.astralpet,
-            permOptions: { permSkills: skillsToPerm, neverAbort: false },
+            /*permOptions: { permSkills: skillsToPerm, neverAbort: false },*/
           });
           if (visitUrl("choice.php").includes("somewhat-human-shaped mass of grey goo nanites"))
             runChoice(1);
