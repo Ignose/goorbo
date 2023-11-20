@@ -139,9 +139,16 @@ export function canDiet(): boolean {
     myFullness() < fullnessLimit() ||
     mySpleenUse() < spleenLimit() ||
     myInebriety() < inebrietyLimit() ||
-    (have($item`distention pill`) && !get("_distentionPillUsed")) ||
-    (have($item`synthetic dog hair pill`) && !get("_syntheticDogHairPillUsed")) ||
-    (have($item`designer sweatpants`) && get("_sweatOutSomeBoozeUsed") < 3 && get("sweat") >= 25) ||
+    (have($item`distention pill`) &&
+      !get("_distentionPillUsed") &&
+      myFullness() <= fullnessLimit()) ||
+    (have($item`synthetic dog hair pill`) &&
+      !get("_syntheticDogHairPillUsed") &&
+      myInebriety() <= inebrietyLimit()) ||
+    (have($item`designer sweatpants`) &&
+      get("_sweatOutSomeBoozeUsed") < 3 &&
+      get("sweat") >= 25 &&
+      myInebriety() <= inebrietyLimit()) ||
     (have($item`mime army shotglass`) && !get("_mimeArmyShotglassUsed")) ||
     (get("currentMojoFilters") < 3 &&
       mallPrice($item`mojo filter`) + mallPrice($item`transdermal smoke patch`) <
