@@ -139,7 +139,6 @@ export function canDiet(): boolean {
     myFullness() < fullnessLimit() ||
     mySpleenUse() < spleenLimit() ||
     myInebriety() < inebrietyLimit() ||
-    (have($item`distention pill`) && !get("_distentionPillUsed")) ||
     (have($item`synthetic dog hair pill`) && !get("_syntheticDogHairPillUsed")) ||
     (have($item`designer sweatpants`) && get("_sweatOutSomeBoozeUsed") < 3 && get("sweat") >= 25) ||
     (have($item`mime army shotglass`) && !get("_mimeArmyShotglassUsed")) ||
