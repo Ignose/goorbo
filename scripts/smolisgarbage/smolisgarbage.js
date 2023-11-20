@@ -8242,6 +8242,20 @@ var args = Args.create("smolisgarbage", "This is a full-day script for smolloopi
     default: false
   })
 });
+;// CONCATENATED MODULE: ./src/tasks/perm.ts
+
+
+function filterPermableSkills() {
+  var allSkills = external_kolmafia_namespaceObject.Skill.all().filter(sk => sk.permable);
+  var permedSkill = permedSkills();
+  var filteredSkills = allSkills.filter(skill => skill.permable && lib_have(skill) && ![2, 3].includes(permedSkill.get(skill)));
+  return filteredSkills;
+}
+function targetPerms() {
+  var pOptions = filterPermableSkills();
+  var maxQty = Math.floor(((0,external_kolmafia_namespaceObject.toInt)(property_get("bankedKarma", 0)) - 11) / 100);
+  return pOptions.slice(0, maxQty);
+}
 ;// CONCATENATED MODULE: ./src/tasks/aftercore.ts
 var aftercore_templateObject, aftercore_templateObject2, aftercore_templateObject3, aftercore_templateObject4, aftercore_templateObject5, aftercore_templateObject6, aftercore_templateObject7, aftercore_templateObject8, aftercore_templateObject9, aftercore_templateObject10, aftercore_templateObject11, aftercore_templateObject12, aftercore_templateObject13, aftercore_templateObject14, aftercore_templateObject15, aftercore_templateObject16, aftercore_templateObject17, aftercore_templateObject18, aftercore_templateObject19, aftercore_templateObject20, aftercore_templateObject21, aftercore_templateObject22, aftercore_templateObject23, aftercore_templateObject24, aftercore_templateObject25, aftercore_templateObject26, aftercore_templateObject27, aftercore_templateObject28, aftercore_templateObject29, aftercore_templateObject30, aftercore_templateObject31, aftercore_templateObject32, aftercore_templateObject33, aftercore_templateObject34, aftercore_templateObject35, aftercore_templateObject36, aftercore_templateObject37, aftercore_templateObject38, aftercore_templateObject39, aftercore_templateObject40, aftercore_templateObject41, aftercore_templateObject42, aftercore_templateObject43, aftercore_templateObject44, aftercore_templateObject45, aftercore_templateObject46, aftercore_templateObject47, aftercore_templateObject48, aftercore_templateObject49, aftercore_templateObject50, aftercore_templateObject51, aftercore_templateObject52, aftercore_templateObject53, aftercore_templateObject54, aftercore_templateObject55, aftercore_templateObject56, aftercore_templateObject57, aftercore_templateObject58, aftercore_templateObject59, aftercore_templateObject60, aftercore_templateObject61, aftercore_templateObject62, aftercore_templateObject63, aftercore_templateObject64, aftercore_templateObject65, aftercore_templateObject66, aftercore_templateObject67, aftercore_templateObject68, aftercore_templateObject69, aftercore_templateObject70, aftercore_templateObject71, aftercore_templateObject72, aftercore_templateObject73, aftercore_templateObject74, aftercore_templateObject75, aftercore_templateObject76, aftercore_templateObject77, aftercore_templateObject78, aftercore_templateObject79, aftercore_templateObject80;
 function aftercore_toConsumableArray(arr) { return aftercore_arrayWithoutHoles(arr) || aftercore_iterableToArray(arr) || aftercore_unsupportedIterableToArray(arr) || aftercore_nonIterableSpread(); }
@@ -8257,6 +8271,7 @@ function aftercore_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strin
 
 
 //import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
+
 
 //import { targetPerms } from "./perm";
 
@@ -8635,8 +8650,8 @@ function AftercoreQuest() {
               .join(", ")}]`
           );*/
 
-        /*const skillsToPerm = new Map();
-        targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));*/
+        var skillsToPerm = new Map();
+        targetPerms().forEach(sk => skillsToPerm.set(sk, Lifestyle.softcore));
 
         //const skillsToPerm = new Map();
         //targetPerms().forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));
@@ -8647,10 +8662,12 @@ function AftercoreQuest() {
           lifestyle: 2,
           moon: args.moonsign,
           consumable: template_string_$item(aftercore_templateObject79 || (aftercore_templateObject79 = aftercore_taggedTemplateLiteral(["astral six-pack"]))),
-          pet: args.astralpet === template_string_$item(aftercore_templateObject80 || (aftercore_templateObject80 = aftercore_taggedTemplateLiteral(["none"]))) ? undefined : args.astralpet
-          //permOptions: { permSkills: skillsToPerm, neverAbort: false },
+          pet: args.astralpet === template_string_$item(aftercore_templateObject80 || (aftercore_templateObject80 = aftercore_taggedTemplateLiteral(["none"]))) ? undefined : args.astralpet,
+          permOptions: {
+            permSkills: skillsToPerm,
+            neverAbort: false
+          }
         });
-
         if ((0,external_kolmafia_namespaceObject.visitUrl)("choice.php").includes("somewhat-human-shaped mass of grey goo nanites")) (0,external_kolmafia_namespaceObject.runChoice)(1);
         (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
       }
