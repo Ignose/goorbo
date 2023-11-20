@@ -1,4 +1,4 @@
-import { getPermedSkills, gnomadsAvailable, Item, Skill, toInt } from "kolmafia";
+/*import { getPermedSkills, gnomadsAvailable, Item, Skill, toInt } from "kolmafia";
 import { $skills, get, have } from "libram";
 
 /*export function getClass(property: string, _default: Class): Class {
@@ -9,7 +9,7 @@ export function setClass(property: string, value: Class): void {
 }
 
 export const baseClasses = $classes`Seal Clubber, Turtle Tamer, Pastamancer, Sauceror, Disco Bandit, Accordion Thief`;
-*/
+
 export const gnomeSkills = $skills`Torso Awareness, Gnefarious Pickpocketing, Powers of Observatiogn, Gnomish Hardigness, Cosmic Ugnderstanding`;
 
 const permBlockList = [
