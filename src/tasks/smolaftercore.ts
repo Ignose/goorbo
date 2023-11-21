@@ -47,7 +47,6 @@ import {
   getTodaysHolidayWanderers,
   have,
   Lifestyle,
-  //Lifestyle,
   Macro,
   set,
   uneffect,
@@ -63,10 +62,8 @@ import {
   stooperDrunk,
   totallyDrunk,
 } from "./utils";
-//import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
 import { args } from "../args";
 import { targetPerms } from "./perm";
-//import { targetPerms } from "./perm";
 
 export function AftercoreQuest(): Quest {
   return {

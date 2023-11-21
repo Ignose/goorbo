@@ -1,7 +1,7 @@
-import { print } from "kolmafia";
+import { gamedayToInt, print, todayToString } from "kolmafia";
 import { Args, getTasks } from "grimoire-kolmafia";
-import { AftercoreQuest } from "./tasks/aftercore";
-import { GyouQuests } from "./tasks/greyyou";
+import { AftercoreQuest } from "./tasks/smolaftercore";
+import { GyouQuests } from "./tasks/smol";
 import { ProfitTrackingEngine } from "./engine/engine";
 import { checkReqs } from "./tasks/sim";
 import { args } from "./args";
@@ -9,11 +9,17 @@ import { args } from "./args";
 
 const version = "0.6.8";
 
+const dontSmol = gamedayToInt() === 79 || todayToString().includes("1031");
+
 export function main(command?: string): void {
   Args.fill(args, command);
   if (args.help) {
     Args.showHelp(args);
     return;
+  }
+
+  if (dontSmol && args.halloween) {
+    throw `Today is halloween, run CS if you can!`;
   }
   // if (args.profits) {
   //   print("work in progress");

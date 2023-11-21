@@ -1,5 +1,5 @@
 import { Skill, toInt } from "kolmafia";
-import { get, have, permedSkills } from "libram";
+import { get, have, Lifestyle, permedSkills } from "libram";
 
 function filterPermableSkills(): Skill[] {
   const allSkills = Skill.all().filter((sk) => sk.permable);
@@ -10,7 +10,9 @@ function filterPermableSkills(): Skill[] {
     (skill) =>
       skill.permable &&
       have(skill) &&
-      !([2, 3] as (number | undefined)[]).includes(permedSkill.get(skill))
+      !([Lifestyle.softcore, Lifestyle.hardcore] as (number | undefined)[]).includes(
+        permedSkill.get(skill)
+      )
   );
 
   return filteredSkills;
