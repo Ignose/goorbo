@@ -47,7 +47,6 @@ import {
   getTodaysHolidayWanderers,
   have,
   Lifestyle,
-  //Lifestyle,
   Macro,
   set,
   uneffect,
@@ -63,9 +62,8 @@ import {
   stooperDrunk,
   totallyDrunk,
 } from "./utils";
-//import { printPermPlan, setClass, targetClass, targetPerms } from "./perm";
 import { args } from "../args";
-//import { targetPerms } from "./perm";
+import { targetPerms } from "./perm";
 
 export function AftercoreQuest(): Quest {
   return {
@@ -533,8 +531,8 @@ export function AftercoreQuest(): Quest {
                 .join(", ")}]`
             );*/
 
-          /*const skillsToPerm = new Map();
-          targetPerms(false).forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));*/
+          const skillsToPerm = new Map();
+          targetPerms().forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));
 
           //const skillsToPerm = new Map();
           //targetPerms().forEach((sk) => skillsToPerm.set(sk, Lifestyle.softcore));
@@ -546,7 +544,7 @@ export function AftercoreQuest(): Quest {
             moon: args.moonsign,
             consumable: $item`astral six-pack`,
             pet: args.astralpet === $item`none` ? undefined : args.astralpet,
-            //permOptions: { permSkills: skillsToPerm, neverAbort: false },
+            permOptions: { permSkills: skillsToPerm, neverAbort: false },
           });
           if (visitUrl("choice.php").includes("somewhat-human-shaped mass of grey goo nanites"))
             runChoice(1);

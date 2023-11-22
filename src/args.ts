@@ -126,6 +126,10 @@ export const args = Args.create(
       help: `The command that will be used to diet and use all your adventures in Day 2 aftercore.`,
       default: "garbo ascend",
     }),
+    halloween: Args.flag({
+      help: "Warn me when I'm about to run smol on Halloween!",
+      default: true,
+    }),
     tip: Args.flag({
       help: "Send all your soap knives to the author. Thanks!",
       default: false,
