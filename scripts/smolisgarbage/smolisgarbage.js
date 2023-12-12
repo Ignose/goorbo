@@ -8824,7 +8824,8 @@ function GyouQuests() {
       do: () => {
         (0,external_kolmafia_namespaceObject.visitUrl)("place.php?whichplace=nstower&action=ns_11_prism");
       },
-      clear: "all"
+      clear: "all",
+      tracking: "Ignore"
     }]
   }, {
     name: "Post-Grey You Aftercore",
