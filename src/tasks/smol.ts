@@ -583,15 +583,9 @@ export function GyouQuests(): Quest[] {
             if (have($item`clockwork maid`)) {
               use($item`clockwork maid`);
             }
+            cliExecute("maximize adv, switch disembodied hand, -switch left-hand man");
             pajamas = true;
           },
-          outfit: () => ({
-            familiar:
-              $familiars`Trick-or-Treating Tot, Left-Hand Man, Disembodied Hand, Grey Goose`.find(
-                (fam) => have(fam)
-              ),
-            modifier: `adventures${args.pvp ? ", 0.3 fites" : ""}`,
-          }),
         },
         {
           name: "Summon Soap Knife",
