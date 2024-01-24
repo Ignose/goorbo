@@ -17,6 +17,7 @@ export function main(command?: string): void {
     Args.showHelp(args);
     return;
   }
+  print('Depricated script; consider using CandyWrapper with argument "smol"!');
 
   if (dontSmol && args.halloween) {
     throw `Today is halloween, run CS if you can!`;
