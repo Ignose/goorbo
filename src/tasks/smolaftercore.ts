@@ -7,6 +7,7 @@ import {
   getClanName,
   getWorkshed,
   guildStoreAvailable,
+  handlingChoice,
   haveEffect,
   haveEquipped,
   hippyStoneBroken,
@@ -546,8 +547,7 @@ export function AftercoreQuest(): Quest {
             pet: args.astralpet === $item`none` ? undefined : args.astralpet,
             permOptions: { permSkills: skillsToPerm, neverAbort: false },
           });
-          if (visitUrl("choice.php").includes("somewhat-human-shaped mass of grey goo nanites"))
-            runChoice(1);
+          while (handlingChoice()) runChoice(1);
           cliExecute("refresh all");
         },
       },
