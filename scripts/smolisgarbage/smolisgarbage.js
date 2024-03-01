@@ -8745,7 +8745,7 @@ function AftercoreQuest() {
             neverAbort: false
           }
         });
-        if ((0,external_kolmafia_namespaceObject.visitUrl)("choice.php").includes("somewhat-human-shaped mass of grey goo nanites")) (0,external_kolmafia_namespaceObject.runChoice)(1);
+        while ((0,external_kolmafia_namespaceObject.handlingChoice)()) (0,external_kolmafia_namespaceObject.runChoice)(1);
         (0,external_kolmafia_namespaceObject.cliExecute)("refresh all");
       }
     }]
